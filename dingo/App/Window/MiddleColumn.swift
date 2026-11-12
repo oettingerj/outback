@@ -273,10 +273,10 @@ struct ResponseMark: View {
     let event: CalendarEvent
     var body: some View {
         switch (event.isCanceled, event.myResponse) {
-        case (true, _): FigureText(text: "Canceled", color: Color(nsColor: Theme.fail))
-        case (_, .accepted?): FigureText(text: "Going", color: Color(nsColor: Theme.pass))
-        case (_, .tentative?): FigureText(text: "Maybe", color: Color(nsColor: Theme.pending))
-        case (_, .declined?): FigureText(text: "Declined", color: pageTertiary)
+        case (true, _): StateWord(text: "Canceled", color: Color(nsColor: Theme.fail))
+        case (_, .accepted?): StateWord(text: "Going", color: Color(nsColor: Theme.pass))
+        case (_, .tentative?): StateWord(text: "Maybe", color: Color(nsColor: Theme.pending))
+        case (_, .declined?): StateWord(text: "Declined", color: Color(nsColor: Theme.neutral(5)))
         default: EmptyView()
         }
     }
@@ -310,7 +310,7 @@ struct SegmentedChoice<Value: Hashable>: View {
                         .foregroundStyle(selection == value ? pagePrimary : pageSecondary)
                         .frame(maxWidth: .infinity).frame(height: 24)
                         .background(RoundedRectangle(cornerRadius: 5, style: .continuous)
-                            .fill(Color(nsColor: selection == value ? Theme.hoverFill : .clear)))
+                            .fill(Color(nsColor: selection == value ? RowFill.selected : .clear)))
                         .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)

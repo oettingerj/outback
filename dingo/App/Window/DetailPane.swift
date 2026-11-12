@@ -253,22 +253,11 @@ struct CIStateMark: View {
     let state: NotificationText.CIState?
     var body: some View {
         switch state {
-        case .failed?: Label("Failed", systemImage: "xmark.circle.fill").labelStyle(StateLabelStyle(color: Color(nsColor: Theme.fail)))
-        case .passed?: Label("Passed", systemImage: "checkmark.circle.fill").labelStyle(StateLabelStyle(color: Color(nsColor: Theme.pass)))
-        case .running?: Label("Running", systemImage: "circle.dotted").labelStyle(StateLabelStyle(color: Color(nsColor: Theme.pending)))
+        case .failed?: StateWord(text: "Failed", color: Color(nsColor: Theme.fail), symbol: "xmark.circle.fill")
+        case .passed?: StateWord(text: "Passed", color: Color(nsColor: Theme.pass), symbol: "checkmark.circle.fill")
+        case .running?: StateWord(text: "Running", color: Color(nsColor: Theme.pending), symbol: "circle.dotted")
         case nil: EmptyView()
         }
-    }
-}
-
-private struct StateLabelStyle: LabelStyle {
-    let color: Color
-    func makeBody(configuration: Configuration) -> some View {
-        HStack(spacing: 4) {
-            configuration.icon.font(.system(size: 10, weight: .semibold))
-            configuration.title.font(.system(size: 11, weight: .medium))
-        }
-        .foregroundStyle(color)
     }
 }
 
@@ -408,7 +397,7 @@ private struct LedgerRow: View {
                 .frame(width: LedgerColumns.amount, alignment: .trailing)
         }
         .padding(.horizontal, 12).frame(height: 36)
-        .background(RoundedRectangle(cornerRadius: Theme.controlRadius).fill(Color(nsColor: isSelected ? Theme.hoverFill : .clear)))
+        .background(RoundedRectangle(cornerRadius: Theme.controlRadius).fill(Color(nsColor: isSelected ? RowFill.selected : .clear)))
         .overlay { if isSelected && isFocused { RoundedRectangle(cornerRadius: Theme.controlRadius).strokeBorder(pageAccent, lineWidth: 1.5) } }
         .padding(.horizontal, 6)
         .contentShape(Rectangle())
@@ -419,15 +408,15 @@ private struct LedgerRow: View {
 private struct StatusText: View {
     let status: ReceiptStatus
     var body: some View {
-        let (text, color): (String, Color) = switch status {
-        case .ordered: ("Ordered", pageSecondary)
+        let (text, color): (String, Color?) = switch status {
+        case .ordered: ("Ordered", nil)
         case .shipped: ("Shipped", Color(nsColor: Theme.pending))
         case .delivered: ("Delivered", Color(nsColor: Theme.pass))
         case .refunded: ("Refunded", Color(nsColor: Theme.merged))
-        case .paid: ("Paid", pageSecondary)
-        default: ("—", pageTertiary)
+        case .paid: ("Paid", nil)
+        default: ("—", nil)
         }
-        Text(text).font(.system(size: 12)).foregroundStyle(color)
+        if let color { StateWord(text: text, color: color) } else { Text(text).font(.system(size: 12)).foregroundStyle(pageSecondary) }
     }
 }
 

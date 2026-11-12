@@ -186,7 +186,7 @@ private struct StateText: View {
     }
 }
 
-/// Label column at 64pt, field after it, hairline below: the same anatomy for every header field.
+/// Label column at 56pt and an 8pt gap, field after it, hairline below: the same anatomy for every header field.
 private struct FieldRow<Content: View>: View {
     let label: String
     @ViewBuilder var content: Content

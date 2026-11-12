@@ -5,7 +5,7 @@ import SwiftUI
 
 // One row anatomy for every middle column and log: 12pt gutters inside a 6pt inset, an 8pt unread
 // column, 13pt title, 12pt secondary line, and figures in 0xProto on the trailing edge.
-// Single-line rows are 36pt; two-line rows 56pt.
+// Single-line rows are 36pt; two-line rows 54pt; three-line message rows 72pt.
 
 let pagePrimary = Color(nsColor: Theme.textPrimary)
 let pageSecondary = Color(nsColor: Theme.textSecondary)
@@ -74,7 +74,7 @@ struct ListRow<Trailing: View>: View {
         .padding(.vertical, titleLines > 1 ? 8 : 0)
         .background {
             RoundedRectangle(cornerRadius: Theme.controlRadius, style: .continuous)
-                .fill(Color(nsColor: isSelected ? Theme.hoverFill : isHovered ? Theme.neutral(2) : .clear))
+                .fill(Color(nsColor: isSelected ? RowFill.selected : isHovered ? RowFill.hover : .clear))
         }
         .overlay {
             if isSelected && isFocused {
@@ -114,6 +114,26 @@ enum MonoRuns {
             result[marked].font = .mono(size: size - 1)
         }
         return result
+    }
+}
+
+/// A state in words: the state color on the dot, the word itself in secondary text, so it
+/// stays readable on every row fill. Pass, pending, and fail never carry text on their own.
+struct StateWord: View {
+    let text: String
+    let color: Color
+    var symbol: String?
+    var body: some View {
+        HStack(spacing: 4) {
+            if let symbol {
+                Image(systemName: symbol).font(.system(size: 10, weight: .semibold)).foregroundStyle(color)
+            } else {
+                Circle().fill(color).frame(width: 6, height: 6)
+            }
+            Text(text).font(.system(size: 11, weight: .medium)).foregroundStyle(pageSecondary)
+        }
+        .fixedSize()
+        .accessibilityElement(children: .combine)
     }
 }
 

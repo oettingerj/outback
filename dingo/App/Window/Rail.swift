@@ -102,7 +102,7 @@ private struct RailItem: View {
             .foregroundStyle(isSelected ? pagePrimary : pageSecondary)
             .frame(width: 64, height: 52)
             .background(RoundedRectangle(cornerRadius: Theme.controlRadius, style: .continuous)
-                .fill(Color(nsColor: isSelected ? Theme.hoverFill : isHovered ? Theme.neutral(4).withAlphaComponent(0.5) : .clear)))
+                .fill(Color(nsColor: isSelected ? Theme.chromeSurface : isHovered ? Theme.hoverFill : .clear)))
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)

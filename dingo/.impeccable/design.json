@@ -1,0 +1,851 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-12T02:42:27.921230+00:00",
+  "title": "Design System: Dingo",
+  "extensions": {
+    "colorMeta": {
+      "accent": {
+        "role": "primary",
+        "displayName": "Dingo Ochre",
+        "tonalRamp": [
+          "#2A1406",
+          "#4F270C",
+          "#7A3C12",
+          "#A8520F",
+          "#C2631C",
+          "#F0904A",
+          "#F6C29B",
+          "#FCEBDD"
+        ],
+        "purpose": "Theme.accent: focus rings, unread dots, carets, move flight. Non-text in light (3.95:1 on chrome surface)."
+      },
+      "accent-dark": {
+        "role": "primary",
+        "displayName": "Dingo Ochre (dark)",
+        "tonalRamp": [
+          "#2A1406",
+          "#4F270C",
+          "#7A3C12",
+          "#A8520F",
+          "#C2631C",
+          "#F0904A",
+          "#F6C29B",
+          "#FCEBDD"
+        ]
+      },
+      "accent-text": {
+        "role": "primary",
+        "displayName": "Deep Ochre",
+        "tonalRamp": [
+          "#2A1406",
+          "#4F270C",
+          "#7A3C12",
+          "#A8520F",
+          "#C2631C",
+          "#F0904A",
+          "#F6C29B",
+          "#FCEBDD"
+        ],
+        "purpose": "Theme.accentText: primary button fill, rail badges, text buttons, links. 5.41:1 for white text."
+      },
+      "accent-text-dark": {
+        "role": "primary",
+        "displayName": "Deep Ochre (dark)",
+        "tonalRamp": [
+          "#2A1406",
+          "#4F270C",
+          "#7A3C12",
+          "#A8520F",
+          "#C2631C",
+          "#F0904A",
+          "#F6C29B",
+          "#FCEBDD"
+        ]
+      },
+      "on-accent": {
+        "role": "primary",
+        "displayName": "On Ochre",
+        "purpose": "Theme.onAccent: text on a Deep Ochre fill."
+      },
+      "on-accent-dark": {
+        "role": "primary",
+        "displayName": "On Ochre (dark)"
+      },
+      "pass": {
+        "role": "secondary",
+        "displayName": "Pass Green"
+      },
+      "pass-dark": {
+        "role": "secondary",
+        "displayName": "Pass Green (dark)"
+      },
+      "pending": {
+        "role": "secondary",
+        "displayName": "Pending Amber"
+      },
+      "pending-dark": {
+        "role": "secondary",
+        "displayName": "Pending Amber (dark)"
+      },
+      "fail": {
+        "role": "secondary",
+        "displayName": "Fail Red"
+      },
+      "fail-dark": {
+        "role": "secondary",
+        "displayName": "Fail Red (dark)"
+      },
+      "merged": {
+        "role": "secondary",
+        "displayName": "Merged Purple"
+      },
+      "merged-dark": {
+        "role": "secondary",
+        "displayName": "Merged Purple (dark)"
+      },
+      "strip-ground": {
+        "role": "neutral",
+        "displayName": "Strip Ground",
+        "tonalRamp": [
+          "#18181B",
+          "#2E2E33",
+          "#4E4E56",
+          "#6C6C75",
+          "#C8C8CD",
+          "#EBEBED",
+          "#FAFAFA",
+          "#FFFFFF"
+        ],
+        "rampStep": 3
+      },
+      "strip-ground-dark": {
+        "role": "neutral",
+        "displayName": "Strip Ground (dark)",
+        "tonalRamp": [
+          "#111113",
+          "#18181B",
+          "#26262A",
+          "#3E3E44",
+          "#8A8A93",
+          "#A6A6AE",
+          "#D4D4D8",
+          "#F4F4F5"
+        ],
+        "rampStep": 0
+      },
+      "chrome-surface": {
+        "role": "neutral",
+        "displayName": "Chrome Surface",
+        "tonalRamp": [
+          "#18181B",
+          "#2E2E33",
+          "#4E4E56",
+          "#6C6C75",
+          "#C8C8CD",
+          "#EBEBED",
+          "#FAFAFA",
+          "#FFFFFF"
+        ],
+        "rampStep": 1
+      },
+      "chrome-surface-dark": {
+        "role": "neutral",
+        "displayName": "Chrome Surface (dark)",
+        "tonalRamp": [
+          "#111113",
+          "#18181B",
+          "#26262A",
+          "#3E3E44",
+          "#8A8A93",
+          "#A6A6AE",
+          "#D4D4D8",
+          "#F4F4F5"
+        ],
+        "rampStep": 2
+      },
+      "reading-surface": {
+        "role": "neutral",
+        "displayName": "Reading Surface",
+        "tonalRamp": [
+          "#18181B",
+          "#2E2E33",
+          "#4E4E56",
+          "#6C6C75",
+          "#C8C8CD",
+          "#EBEBED",
+          "#FAFAFA",
+          "#FFFFFF"
+        ],
+        "rampStep": 0
+      },
+      "reading-surface-dark": {
+        "role": "neutral",
+        "displayName": "Reading Surface (dark)",
+        "tonalRamp": [
+          "#111113",
+          "#18181B",
+          "#26262A",
+          "#3E3E44",
+          "#8A8A93",
+          "#A6A6AE",
+          "#D4D4D8",
+          "#F4F4F5"
+        ],
+        "rampStep": 0
+      },
+      "notice-fill": {
+        "role": "neutral",
+        "displayName": "Notice Fill",
+        "tonalRamp": [
+          "#18181B",
+          "#2E2E33",
+          "#4E4E56",
+          "#6C6C75",
+          "#C8C8CD",
+          "#EBEBED",
+          "#FAFAFA",
+          "#FFFFFF"
+        ],
+        "rampStep": 2
+      },
+      "notice-fill-dark": {
+        "role": "neutral",
+        "displayName": "Notice Fill (dark)",
+        "tonalRamp": [
+          "#111113",
+          "#18181B",
+          "#26262A",
+          "#3E3E44",
+          "#8A8A93",
+          "#A6A6AE",
+          "#D4D4D8",
+          "#F4F4F5"
+        ],
+        "rampStep": 2
+      },
+      "field-fill": {
+        "role": "neutral",
+        "displayName": "Field Well",
+        "tonalRamp": [
+          "#18181B",
+          "#2E2E33",
+          "#4E4E56",
+          "#6C6C75",
+          "#C8C8CD",
+          "#EBEBED",
+          "#FAFAFA",
+          "#FFFFFF"
+        ],
+        "rampStep": 3
+      },
+      "field-fill-dark": {
+        "role": "neutral",
+        "displayName": "Field Well (dark)",
+        "tonalRamp": [
+          "#111113",
+          "#18181B",
+          "#26262A",
+          "#3E3E44",
+          "#8A8A93",
+          "#A6A6AE",
+          "#D4D4D8",
+          "#F4F4F5"
+        ],
+        "rampStep": 1
+      },
+      "row-hover": {
+        "role": "neutral",
+        "displayName": "Row Hover",
+        "tonalRamp": [
+          "#18181B",
+          "#2E2E33",
+          "#4E4E56",
+          "#6C6C75",
+          "#C8C8CD",
+          "#EBEBED",
+          "#FAFAFA",
+          "#FFFFFF"
+        ],
+        "rampStep": 2
+      },
+      "row-hover-dark": {
+        "role": "neutral",
+        "displayName": "Row Hover (dark)",
+        "tonalRamp": [
+          "#111113",
+          "#18181B",
+          "#26262A",
+          "#3E3E44",
+          "#8A8A93",
+          "#A6A6AE",
+          "#D4D4D8",
+          "#F4F4F5"
+        ],
+        "rampStep": 3
+      },
+      "row-selected": {
+        "role": "neutral",
+        "displayName": "Row Selected",
+        "tonalRamp": [
+          "#18181B",
+          "#2E2E33",
+          "#4E4E56",
+          "#6C6C75",
+          "#C8C8CD",
+          "#EBEBED",
+          "#FAFAFA",
+          "#FFFFFF"
+        ],
+        "rampStep": 4
+      },
+      "row-selected-dark": {
+        "role": "neutral",
+        "displayName": "Row Selected (dark)",
+        "tonalRamp": [
+          "#111113",
+          "#18181B",
+          "#26262A",
+          "#3E3E44",
+          "#8A8A93",
+          "#A6A6AE",
+          "#D4D4D8",
+          "#F4F4F5"
+        ],
+        "rampStep": 4
+      },
+      "hover-fill": {
+        "role": "neutral",
+        "displayName": "Hover",
+        "tonalRamp": [
+          "#18181B",
+          "#2E2E33",
+          "#4E4E56",
+          "#6C6C75",
+          "#C8C8CD",
+          "#EBEBED",
+          "#FAFAFA",
+          "#FFFFFF"
+        ],
+        "rampStep": 4
+      },
+      "hover-fill-dark": {
+        "role": "neutral",
+        "displayName": "Hover (dark)",
+        "tonalRamp": [
+          "#111113",
+          "#18181B",
+          "#26262A",
+          "#3E3E44",
+          "#8A8A93",
+          "#A6A6AE",
+          "#D4D4D8",
+          "#F4F4F5"
+        ],
+        "rampStep": 3
+      },
+      "pressed-fill": {
+        "role": "neutral",
+        "displayName": "Pressed",
+        "tonalRamp": [
+          "#18181B",
+          "#2E2E33",
+          "#4E4E56",
+          "#6C6C75",
+          "#C8C8CD",
+          "#EBEBED",
+          "#FAFAFA",
+          "#FFFFFF"
+        ],
+        "rampStep": 5
+      },
+      "pressed-fill-dark": {
+        "role": "neutral",
+        "displayName": "Pressed (dark)",
+        "tonalRamp": [
+          "#111113",
+          "#18181B",
+          "#26262A",
+          "#3E3E44",
+          "#8A8A93",
+          "#A6A6AE",
+          "#D4D4D8",
+          "#F4F4F5"
+        ],
+        "rampStep": 4
+      },
+      "hairline": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "tonalRamp": [
+          "#18181B",
+          "#2E2E33",
+          "#4E4E56",
+          "#6C6C75",
+          "#C8C8CD",
+          "#EBEBED",
+          "#FAFAFA",
+          "#FFFFFF"
+        ],
+        "rampStep": 4
+      },
+      "hairline-dark": {
+        "role": "neutral",
+        "displayName": "Hairline (dark)",
+        "tonalRamp": [
+          "#111113",
+          "#18181B",
+          "#26262A",
+          "#3E3E44",
+          "#8A8A93",
+          "#A6A6AE",
+          "#D4D4D8",
+          "#F4F4F5"
+        ],
+        "rampStep": 4
+      },
+      "switch-tint": {
+        "role": "neutral",
+        "displayName": "Switch On Track",
+        "tonalRamp": [
+          "#18181B",
+          "#2E2E33",
+          "#4E4E56",
+          "#6C6C75",
+          "#C8C8CD",
+          "#EBEBED",
+          "#FAFAFA",
+          "#FFFFFF"
+        ],
+        "rampStep": 8
+      },
+      "switch-tint-dark": {
+        "role": "neutral",
+        "displayName": "Switch On Track (dark)",
+        "tonalRamp": [
+          "#111113",
+          "#18181B",
+          "#26262A",
+          "#3E3E44",
+          "#8A8A93",
+          "#A6A6AE",
+          "#D4D4D8",
+          "#F4F4F5"
+        ],
+        "rampStep": 7
+      },
+      "text-primary": {
+        "role": "neutral",
+        "displayName": "Primary Text",
+        "tonalRamp": [
+          "#18181B",
+          "#2E2E33",
+          "#4E4E56",
+          "#6C6C75",
+          "#C8C8CD",
+          "#EBEBED",
+          "#FAFAFA",
+          "#FFFFFF"
+        ],
+        "rampStep": 10
+      },
+      "text-primary-dark": {
+        "role": "neutral",
+        "displayName": "Primary Text (dark)",
+        "tonalRamp": [
+          "#111113",
+          "#18181B",
+          "#26262A",
+          "#3E3E44",
+          "#8A8A93",
+          "#A6A6AE",
+          "#D4D4D8",
+          "#F4F4F5"
+        ],
+        "rampStep": 10
+      },
+      "text-secondary": {
+        "role": "neutral",
+        "displayName": "Secondary Text",
+        "tonalRamp": [
+          "#18181B",
+          "#2E2E33",
+          "#4E4E56",
+          "#6C6C75",
+          "#C8C8CD",
+          "#EBEBED",
+          "#FAFAFA",
+          "#FFFFFF"
+        ],
+        "rampStep": 8
+      },
+      "text-secondary-dark": {
+        "role": "neutral",
+        "displayName": "Secondary Text (dark)",
+        "tonalRamp": [
+          "#111113",
+          "#18181B",
+          "#26262A",
+          "#3E3E44",
+          "#8A8A93",
+          "#A6A6AE",
+          "#D4D4D8",
+          "#F4F4F5"
+        ],
+        "rampStep": 8
+      },
+      "text-tertiary": {
+        "role": "neutral",
+        "displayName": "Tertiary Text",
+        "tonalRamp": [
+          "#18181B",
+          "#2E2E33",
+          "#4E4E56",
+          "#6C6C75",
+          "#C8C8CD",
+          "#EBEBED",
+          "#FAFAFA",
+          "#FFFFFF"
+        ],
+        "rampStep": 7
+      },
+      "text-tertiary-dark": {
+        "role": "neutral",
+        "displayName": "Tertiary Text (dark)",
+        "tonalRamp": [
+          "#111113",
+          "#18181B",
+          "#26262A",
+          "#3E3E44",
+          "#8A8A93",
+          "#A6A6AE",
+          "#D4D4D8",
+          "#F4F4F5"
+        ],
+        "rampStep": 7
+      },
+      "text-disabled": {
+        "role": "neutral",
+        "displayName": "Disabled Text",
+        "tonalRamp": [
+          "#18181B",
+          "#2E2E33",
+          "#4E4E56",
+          "#6C6C75",
+          "#C8C8CD",
+          "#EBEBED",
+          "#FAFAFA",
+          "#FFFFFF"
+        ],
+        "rampStep": 5
+      },
+      "text-disabled-dark": {
+        "role": "neutral",
+        "displayName": "Disabled Text (dark)",
+        "tonalRamp": [
+          "#111113",
+          "#18181B",
+          "#26262A",
+          "#3E3E44",
+          "#8A8A93",
+          "#A6A6AE",
+          "#D4D4D8",
+          "#F4F4F5"
+        ],
+        "rampStep": 5
+      },
+      "document-ground": {
+        "role": "neutral",
+        "displayName": "Document Ground",
+        "purpose": "#FFFFFF in both appearances: the page behind mail HTML in the document panel."
+      }
+    },
+    "typographyMeta": {
+      "issue-title": {
+        "displayName": "Issue title",
+        "purpose": "A newsletter issue's headline."
+      },
+      "event-title": {
+        "displayName": "Event title",
+        "purpose": "An invitation's summary; the welcome heading."
+      },
+      "page-title": {
+        "displayName": "Page title",
+        "purpose": "A conversation's subject; the Settings title."
+      },
+      "command-input": {
+        "displayName": "Command input",
+        "purpose": "Command bar query field only."
+      },
+      "mail-body": {
+        "displayName": "Mail body",
+        "purpose": "Message bodies and the compose editor."
+      },
+      "panel-heading": {
+        "displayName": "Panel heading",
+        "purpose": "Settings section headings."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Column header titles, sender names, compose titlebar."
+      },
+      "row-title": {
+        "displayName": "Row title",
+        "purpose": "Every list row's first line."
+      },
+      "row-title-unread": {
+        "displayName": "Row title unread",
+        "purpose": "Unread rows; weight carries state."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Subtitles, snippets, notices, compose labels."
+      },
+      "control": {
+        "displayName": "Control",
+        "purpose": "Segmented choice labels."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Small copy and text buttons."
+      },
+      "state-word": {
+        "displayName": "State word",
+        "purpose": "Every state word, in secondary text beside its colored dot or glyph."
+      },
+      "section-label": {
+        "displayName": "Section label",
+        "purpose": "List section headers, ledger header."
+      },
+      "rail-label": {
+        "displayName": "Rail label",
+        "purpose": "The word under each rail symbol."
+      },
+      "mono-total": {
+        "displayName": "Mono total",
+        "purpose": "The month total under the ledger."
+      },
+      "mono": {
+        "displayName": "Mono",
+        "purpose": "Repository titles in Notifications."
+      },
+      "mono-small": {
+        "displayName": "Mono small",
+        "purpose": "Trailing figures, header counts, addresses, dates and times."
+      },
+      "badge": {
+        "displayName": "Badge",
+        "purpose": "Rail unread counts."
+      }
+    },
+    "shadows": [
+      {
+        "name": "floating-panel",
+        "value": "system NSPanel.hasShadow (approximated in snippets as 0 10px 30px rgba(0,0,0,.18))",
+        "purpose": "Command bar only."
+      }
+    ],
+    "motion": [
+      {
+        "name": "hover",
+        "value": "80ms ease-out",
+        "purpose": "Row hover and selection fills."
+      },
+      {
+        "name": "panel",
+        "value": "120ms ease-out",
+        "purpose": "Scrolling the selection into view, panel transitions."
+      },
+      {
+        "name": "move-flight",
+        "value": "200ms",
+        "purpose": "A moved row flies to its rail item as a 28x20pt ochre chip."
+      },
+      {
+        "name": "rail-landing",
+        "value": "240ms",
+        "purpose": "The rail item's 1.5pt ochre ring fades in and out after a move."
+      },
+      {
+        "name": "reduce-motion",
+        "value": "0ms",
+        "purpose": "All motion is skipped under Reduce Motion."
+      },
+      {
+        "name": "input-path",
+        "value": "none",
+        "purpose": "Typing never animates; row hover fades at 80ms, selection changes instantly."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "window-min",
+        "value": "820x480pt"
+      },
+      {
+        "name": "middle-column",
+        "value": "280-520pt, default 340pt; detail keeps at least 360pt"
+      },
+      {
+        "name": "compose-min",
+        "value": "480x360pt"
+      },
+      {
+        "name": "settings-min",
+        "value": "560x420pt"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Rail Item",
+      "kind": "nav",
+      "refersTo": "rail-item",
+      "description": "64 x 52pt bucket item on strip ground: symbol over label, ochre capsule badge, hover on hover fill, selected on chrome surface.",
+      "html": "<nav class=\"ds-rail\"><button class=\"ds-ri ds-ri-on\" aria-current=\"page\"><span class=\"ds-ri-s\"><svg width=\"18\" height=\"16\" viewBox=\"0 0 18 16\" fill=\"currentColor\"><path d=\"M2 9l2.5-7h9L16 9v5H2z\"/></svg><b>1</b></span>Inbox</button><button class=\"ds-ri\"><span class=\"ds-ri-s\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><rect x=\"2\" y=\"2\" width=\"12\" height=\"12\" rx=\"2\"/><path d=\"M5 6h6M5 9h6\"/></svg><b>3</b></span>Newsletters</button><button class=\"ds-ri\"><span class=\"ds-ri-s\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><path d=\"M4 11V7a4 4 0 018 0v4l1 1H3zM7 14h2\"/></svg></span>Notifications</button></nav>",
+      "css": ".ds-rail{display:flex;flex-direction:column;align-items:center;gap:2px;width:76px;padding:4px 0;background:#EBEBED;font-family:-apple-system,system-ui,sans-serif}.ds-ri{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;width:64px;height:52px;border:0;border-radius:6px;background:transparent;color:#4E4E56;font-size:10px;font-weight:500;transition:background .08s ease-out}.ds-ri:hover{background:#DEDEE1}.ds-ri-on,.ds-ri-on:hover{background:#FAFAFA;color:#18181B}.ds-ri:focus-visible{outline:1.5px solid #C2631C;outline-offset:-1.5px}.ds-ri-s{position:relative;display:flex;align-items:center;justify-content:center;width:28px;height:22px}.ds-ri-s b{position:absolute;right:-6px;top:-5px;min-width:15px;height:14px;padding:0 4px;box-sizing:border-box;border-radius:7px;background:#A8520F;color:#FFFFFF;font:700 9px/14px '0xProto',ui-monospace,SFMono-Regular,monospace;text-align:center}"
+    },
+    {
+      "name": "List Row",
+      "kind": "custom",
+      "refersTo": "list-row-72",
+      "description": "The one row: unread dot, 13pt title with trailing mono figure, subtitle and snippet; hover and selected are RowFill steps, focused list adds the ochre ring.",
+      "html": "<div class=\"ds-list\"><div class=\"ds-row ds-row-sel\" tabindex=\"0\"><i></i><div><p><b>Maya</b><time>9:08 PM</time></p><span>Friday walkthrough of the sync rewrite</span><small>I pushed the branch. Mostly want eyes on the history path.</small></div></div><div class=\"ds-row ds-row-un\" tabindex=\"0\"><i class=\"ds-dot\"></i><div><p><b>Sam</b><time>6:32 PM</time></p><span>Re: Cabin weekend</span><small>Booked! Arriving Saturday morning.</small></div></div><div class=\"ds-row ds-row-36\" tabindex=\"0\"><i></i><div><p><b class=\"ds-mono\">swiftlang/swift</b><time>12</time></p></div></div></div>",
+      "css": ".ds-list{width:340px;padding:6px 0;background:#FAFAFA;font-family:-apple-system,system-ui,sans-serif;display:flex;flex-direction:column;gap:1px}.ds-row{display:flex;align-items:flex-start;gap:8px;margin:0 6px;padding:0 12px;height:72px;box-sizing:border-box;padding-top:12px;border-radius:6px;color:#18181B;transition:background .08s ease-out}.ds-row:hover{background:#F4F4F5}.ds-row-sel,.ds-row-sel:hover{background:#DEDEE1;box-shadow:inset 0 0 0 1.5px #C2631C}.ds-row:focus-visible{outline:none;box-shadow:inset 0 0 0 1.5px #C2631C}.ds-row i{flex:none;width:7px;height:7px;margin:5px 0 0 .5px;border-radius:50%}.ds-dot{background:#C2631C}.ds-row>div{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}.ds-row p{display:flex;align-items:baseline;gap:8px;margin:0}.ds-row b{flex:1;font-size:13px;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ds-row-un b{font-weight:600}.ds-row time{font:11px '0xProto',ui-monospace,SFMono-Regular,monospace;font-variant-numeric:tabular-nums;color:#6C6C75}.ds-row span{font-size:12px;color:#4E4E56;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ds-row-un span{color:#18181B}.ds-row small{font-size:12px;color:#6C6C75;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ds-row-36{height:36px;padding-top:0;align-items:center}.ds-row-36 i{margin-top:0}.ds-mono{font:12px '0xProto',ui-monospace,SFMono-Regular,monospace!important}"
+    },
+    {
+      "name": "Section Header and Segmented Choice",
+      "kind": "chip",
+      "refersTo": "segmented-choice",
+      "description": "Neutral view-mode control over an 11pt semibold section heading on the 18pt gutter.",
+      "html": "<div class=\"ds-mid\"><div class=\"ds-seg\" role=\"tablist\"><button class=\"ds-seg-on\" role=\"tab\" aria-selected=\"true\">By Publication</button><button role=\"tab\">Latest</button></div><h3 class=\"ds-sh\">Stratechery<span>2 new</span></h3></div>",
+      "css": ".ds-mid{width:340px;padding:10px 0 0;background:#FAFAFA;font-family:-apple-system,system-ui,sans-serif}.ds-seg{display:flex;gap:2px;margin:0 12px 4px;padding:2px;border-radius:6px;background:#EBEBED}.ds-seg button{flex:1;height:24px;border:0;border-radius:5px;background:transparent;font:500 12px -apple-system,system-ui,sans-serif;color:#4E4E56}.ds-seg button:hover{color:#18181B}.ds-seg .ds-seg-on{background:#DEDEE1;color:#18181B}.ds-seg button:focus-visible{outline:1.5px solid #C2631C;outline-offset:0}.ds-sh{display:flex;justify-content:space-between;align-items:baseline;margin:0;padding:14px 18px 4px;font-size:11px;font-weight:600;color:#4E4E56}.ds-sh span{font:400 11px '0xProto',ui-monospace,SFMono-Regular,monospace;color:#6C6C75}"
+    },
+    {
+      "name": "Column Header",
+      "kind": "nav",
+      "refersTo": "column-header",
+      "description": "40pt header shared by all three columns: 13pt semibold title, mono count, 28pt icon buttons trailing.",
+      "html": "<header class=\"ds-ch\"><b>Inbox</b><span>1 unread</span><nav><button aria-label=\"Archive\"><svg width=\"15\" height=\"14\" viewBox=\"0 0 15 14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><rect x=\"1\" y=\"1\" width=\"13\" height=\"4\" rx=\"1\"/><path d=\"M2.5 5v7h10V5M6 8h3\"/></svg></button><button aria-label=\"More\"><svg width=\"14\" height=\"4\" viewBox=\"0 0 14 4\" fill=\"currentColor\"><circle cx=\"2\" cy=\"2\" r=\"1.4\"/><circle cx=\"7\" cy=\"2\" r=\"1.4\"/><circle cx=\"12\" cy=\"2\" r=\"1.4\"/></svg></button></nav></header>",
+      "css": ".ds-ch{display:flex;align-items:center;gap:6px;width:340px;height:40px;padding:0 8px 0 16px;box-sizing:border-box;background:#FAFAFA;border-bottom:1px solid #DEDEE1;font-family:-apple-system,system-ui,sans-serif}.ds-ch b{font-size:13px;font-weight:600;color:#18181B}.ds-ch span{font:11px '0xProto',ui-monospace,SFMono-Regular,monospace;color:#6C6C75}.ds-ch nav{margin-left:auto;display:flex;gap:2px}.ds-ch button{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border:0;border-radius:6px;background:transparent;color:#4E4E56;transition:background .08s ease-out}.ds-ch button:hover{background:#DEDEE1}.ds-ch button:active{background:#C8C8CD}.ds-ch button:focus-visible{outline:1.5px solid #C2631C;outline-offset:0}"
+    },
+    {
+      "name": "Notice Bar",
+      "kind": "custom",
+      "refersTo": "notice-bar",
+      "description": "Inline strip after a move: the sender-rule question, Always as the one primary action.",
+      "html": "<div class=\"ds-nb\"><span>Always put mail from Stratechery in Newsletters?</span><button class=\"ds-pb\">Always</button><button class=\"ds-bb\">Just This</button><button class=\"ds-bb\">Undo</button><button class=\"ds-x\" aria-label=\"Dismiss\"><svg width=\"9\" height=\"9\" viewBox=\"0 0 10 10\"><path d=\"M2 2l6 6M8 2l-6 6\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"/></svg></button></div>",
+      "css": ".ds-nb{display:flex;align-items:center;gap:10px;min-height:40px;padding:0 18px;background:#F4F4F5;border-bottom:1px solid #DEDEE1;font:12px -apple-system,system-ui,sans-serif;color:#18181B}.ds-nb span{flex:1}.ds-pb{height:24px;padding:0 12px;border:0;border-radius:6px;background:#A8520F;color:#FFFFFF;font:500 13px -apple-system,system-ui,sans-serif}.ds-pb:active{opacity:.85}.ds-bb{height:20px;padding:0 8px;border:1px solid #C8C8CD;border-radius:5px;background:#FFFFFF;font:11px -apple-system,system-ui,sans-serif;color:#18181B}.ds-x{border:0;background:transparent;color:#6C6C75;padding:4px}.ds-nb button:focus-visible{outline:2px solid #C2631C;outline-offset:1px}"
+    },
+    {
+      "name": "Document Panel",
+      "kind": "card",
+      "refersTo": "document-panel",
+      "description": "Mail HTML on its own white page, clipped to 10pt with a hairline, inset 24pt; white in both appearances.",
+      "html": "<div class=\"ds-reader\"><div class=\"ds-mh\"><b>Bayside Coffee</b><code>receipts@bayside.example</code></div><article class=\"ds-doc\"><h2>Thanks for your order</h2><p>Order BC-20931</p><p><b>Total: $14.50</b></p></article></div>",
+      "css": ".ds-reader{background:#111113;padding:16px 0 12px;font-family:-apple-system,system-ui,sans-serif}.ds-mh{display:flex;gap:8px;align-items:baseline;padding:0 24px}.ds-mh b{font-size:13px;font-weight:600;color:#F4F4F5}.ds-mh code{font:11px '0xProto',ui-monospace,SFMono-Regular,monospace;color:#8A8A93}.ds-doc{margin:12px 24px;padding:20px 24px;border:1px solid #303035;border-radius:10px;background:#FFFFFF;color:#18181B;font:14px/1.5 -apple-system,system-ui,sans-serif}.ds-doc h2{margin:0 0 12px;font-size:20px}.ds-doc p{margin:0 0 8px}.ds-doc ::selection{background:#F3D3B8}"
+    },
+    {
+      "name": "Ledger Row",
+      "kind": "custom",
+      "refersTo": "ledger-row",
+      "description": "Receipts table: 32pt header, 36pt rows with mono date, order, and amount; month total in 13pt bold mono.",
+      "html": "<div class=\"ds-led\"><div class=\"ds-lh\"><span>Date</span><span>Merchant</span><span>Order</span><span>Status</span><span>Amount</span></div><div class=\"ds-lr ds-lr-sel\" tabindex=\"0\"><code>Nov 11</code><span>Bayside Coffee</span><code>BC-20931</code><span class=\"ds-sw\"><i></i>Shipped</span><code class=\"ds-amt\">$14.50</code></div><div class=\"ds-lr\" tabindex=\"0\"><code>Nov 10</code><span>Northline Hardware</span><code>NL-55812</code><em>Paid</em><code class=\"ds-amt\">$86.20</code></div><div class=\"ds-lt\"><span>2 receipts in November 2026</span><b>$100.70</b></div></div>",
+      "css": ".ds-led{background:#FFFFFF;font-family:-apple-system,system-ui,sans-serif;color:#18181B}.ds-lh,.ds-lr{display:grid;grid-template-columns:64px 1fr 150px 84px 110px;gap:12px;align-items:center}.ds-lh{height:32px;padding:0 18px;border-bottom:1px solid #DEDEE1;font-size:11px;font-weight:600;color:#4E4E56}.ds-lh span:last-child,.ds-amt{text-align:right}.ds-lr{height:36px;margin:1px 6px 0;padding:0 12px;border-radius:6px;font-size:13px}.ds-lr-sel,.ds-lr-sel:hover{background:#DEDEE1;box-shadow:inset 0 0 0 1.5px #C2631C}.ds-lr:focus-visible{outline:none;box-shadow:inset 0 0 0 1.5px #C2631C}.ds-lr code{font:11px '0xProto',ui-monospace,SFMono-Regular,monospace;font-variant-numeric:tabular-nums;color:#6C6C75}.ds-lr .ds-amt{color:#18181B}.ds-lr em{font-style:normal;font-size:12px;color:#4E4E56}.ds-sw{display:flex;align-items:center;gap:4px;font-size:11px;font-weight:500;color:#4E4E56}.ds-sw i{width:6px;height:6px;border-radius:50%;background:#B07A0A}.ds-lt{display:flex;justify-content:space-between;align-items:center;height:40px;margin-top:6px;padding:0 24px;border-top:1px solid #DEDEE1;border-bottom:1px solid #DEDEE1;font-size:12px;color:#4E4E56}.ds-lt b{font:700 13px '0xProto',ui-monospace,SFMono-Regular,monospace;color:#18181B}"
+    },
+    {
+      "name": "RSVP Bar and CI State Mark",
+      "kind": "button",
+      "refersTo": "rsvp-bar",
+      "description": "Going? Yes as the filled primary while unanswered, Maybe and No bordered; CI marks are state words: the hue on the glyph, the word in secondary text.",
+      "html": "<div class=\"ds-rsvp\"><b>Going?</b><button class=\"ds-pb\">Yes</button><button class=\"ds-bb\">Maybe</button><button class=\"ds-bb\">No</button></div><div class=\"ds-ci\"><span class=\"ds-ci-f\"><svg width=\"10\" height=\"10\" viewBox=\"0 0 10 10\"><circle cx=\"5\" cy=\"5\" r=\"5\" fill=\"currentColor\"/><path d=\"M3.3 3.3l3.4 3.4M6.7 3.3L3.3 6.7\" stroke=\"#fff\" stroke-width=\"1.3\"/></svg>Failed</span><span class=\"ds-ci-p\"><svg width=\"10\" height=\"10\" viewBox=\"0 0 10 10\"><circle cx=\"5\" cy=\"5\" r=\"5\" fill=\"currentColor\"/><path d=\"M2.8 5.2l1.5 1.5 2.9-3\" stroke=\"#fff\" stroke-width=\"1.3\" fill=\"none\"/></svg>Passed</span></div>",
+      "css": ".ds-rsvp{display:flex;align-items:center;gap:8px;padding:12px 32px;background:#FFFFFF;font-family:-apple-system,system-ui,sans-serif}.ds-rsvp b{font-size:13px;font-weight:500;color:#18181B}.ds-pb{height:24px;padding:0 12px;border:0;border-radius:6px;background:#A8520F;color:#FFFFFF;font:500 13px -apple-system,system-ui,sans-serif}.ds-pb:active{opacity:.85}.ds-bb{height:24px;padding:0 10px;border:1px solid #C8C8CD;border-radius:6px;background:#FFFFFF;font:13px -apple-system,system-ui,sans-serif;color:#18181B}.ds-bb:hover{background:#F4F4F5}.ds-rsvp button:focus-visible{outline:2px solid #C2631C;outline-offset:1px}.ds-ci{display:flex;gap:16px;padding:8px 32px;background:#FFFFFF;font:500 11px -apple-system,system-ui,sans-serif}.ds-ci span{display:flex;align-items:center;gap:4px}.ds-ci span{color:#4E4E56}.ds-ci-f svg{color:#D1343A}.ds-ci-p svg{color:#248A57}"
+    },
+    {
+      "name": "Command Bar",
+      "kind": "custom",
+      "refersTo": "command-bar",
+      "description": "640pt floating panel: 52pt field with 16pt query and ochre caret, list rows under section headers, neutral selection.",
+      "html": "<div class=\"ds-cmd\"><label class=\"ds-cq\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"none\"><circle cx=\"7\" cy=\"7\" r=\"5\" stroke=\"#6C6C75\" stroke-width=\"1.6\"/><path d=\"M11 11l3.5 3.5\" stroke=\"#6C6C75\" stroke-width=\"1.6\" stroke-linecap=\"round\"/></svg><input placeholder=\"Go to a bucket, search mail, or run a command\" aria-label=\"Command bar\"></label><h3>Go to</h3><div class=\"ds-cr ds-cr-sel\"><b>Newsletters</b><code>⌘2</code></div><div class=\"ds-cr\"><b>Receipts</b><code>⌘4</code></div><h3>Commands</h3><div class=\"ds-cr\"><b>Archive</b><code>E</code></div></div>",
+      "css": ".ds-cmd{width:640px;padding-bottom:8px;border:1px solid #DEDEE1;border-radius:10px;background:#FAFAFA;box-shadow:0 10px 30px rgba(0,0,0,.18);overflow:hidden;font-family:-apple-system,system-ui,sans-serif}.ds-cq{display:flex;align-items:center;gap:10px;height:52px;padding:0 16px;border-bottom:1px solid #DEDEE1}.ds-cq input{flex:1;border:0;background:transparent;font:16px -apple-system,system-ui,sans-serif;color:#18181B;caret-color:#C2631C;outline:none}.ds-cmd h3{margin:0;padding:14px 18px 4px;font-size:11px;font-weight:600;color:#4E4E56}.ds-cr{display:flex;align-items:center;height:36px;margin:1px 6px 0;padding:0 12px 0 28px;border-radius:6px;font-size:13px;color:#18181B}.ds-cr:hover{background:#F4F4F5}.ds-cr-sel,.ds-cr-sel:hover{background:#DEDEE1}.ds-cr b{flex:1;font-weight:400}.ds-cr code{font:11px '0xProto',ui-monospace,SFMono-Regular,monospace;color:#6C6C75}"
+    },
+    {
+      "name": "Compose Field Row",
+      "kind": "input",
+      "refersTo": "compose-field-row",
+      "description": "56pt right-aligned tertiary label, 13pt field, hairline below; the compose footer's Send is the one primary.",
+      "html": "<form class=\"ds-comp\"><label class=\"ds-fr\"><span>To</span><input aria-label=\"To\" value=\"maya@example.com\"><a href=\"#\">Cc/Bcc</a></label><label class=\"ds-fr\"><span>Subject</span><input class=\"ds-subj\" aria-label=\"Subject\" value=\"Re: Friday walkthrough\"></label><div class=\"ds-ed\">Friday at 2 works.</div><footer><button type=\"button\" class=\"ds-pb\">Send</button></footer></form>",
+      "css": ".ds-comp{width:560px;background:#FFFFFF;font-family:-apple-system,system-ui,sans-serif;color:#18181B}.ds-fr{display:flex;align-items:center;gap:8px;min-height:36px;padding:0 12px;border-bottom:1px solid #DEDEE1}.ds-fr span{width:56px;text-align:right;font-size:12px;color:#6C6C75}.ds-fr input{flex:1;border:0;background:transparent;font:13px -apple-system,system-ui,sans-serif;color:#18181B;caret-color:#C2631C;outline:none}.ds-fr .ds-subj{font-weight:500}.ds-fr a{font:500 11px -apple-system,system-ui,sans-serif;color:#A8520F;text-decoration:none}.ds-fr a:hover{text-decoration:underline}.ds-fr:focus-within span{color:#4E4E56}.ds-ed{min-height:120px;padding:14px 16px;font-size:14px}.ds-comp footer{display:flex;justify-content:flex-end;height:48px;align-items:center;padding:0 16px;border-top:1px solid #DEDEE1}.ds-pb{height:24px;padding:0 12px;border:0;border-radius:6px;background:#A8520F;color:#FFFFFF;font:500 13px -apple-system,system-ui,sans-serif}.ds-pb:focus-visible{outline:2px solid #C2631C;outline-offset:1px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Sorting Desk",
+    "overview": "Dingo is Koala's world (the Eucalyptus zinc ramp, SF Pro and 0xProto, 6pt controls and 10pt panels, 1px hairlines, short motion) set up as a desk with five trays. One three-column grammar serves every kind of mail: a 76pt rail on strip ground, a middle column on chrome surface, and a detail pane on ramp step 0, each under one 40pt header so the three hairlines meet in a single line. Only the middle column changes meaning by bucket (threads, issues under publications, sources, months, days), and every one of those lists is the same row. The detail pane takes the bucket's form: a conversation, a wide-measure issue, a source log, a month ledger, an event with its RSVP.\n\nThe world is native and opaque. Chroma is one ochre, from a dingo's coat, for focus, selection rings, unread marks, and the primary action, plus the engineer-convention state hues for CI, receipts, and RSVP state. Depth is tonal: strip ground, chrome surface, and the reading surface are three ramp steps; floating panels alone cast a shadow. Mail HTML, which is designed for its own light page, is never re-colored: it sits in a white, hairline-bordered document panel in both appearances. It refuses Apple Mail's three equal blue-selection panes with one list for everything, and refuses per-bucket mini-apps.",
+    "keyCharacteristics": [
+      "One neutral ramp, light and dark, for every surface, hairline, and text color (shared with Koala through Eucalyptus).",
+      "One accent, Dingo ochre, for focus, unread, and the primary action only.",
+      "One row anatomy at 36, 54, and 72pt in every list, the command bar included.",
+      "One 40pt header height across rail, middle column, and detail pane.",
+      "Opaque flat fills and 1px hairlines; shadow only on floating panels.",
+      "0xProto with tabular figures for times, dates, counts, amounts, order numbers, addresses, and repository names.",
+      "80ms hover, 120ms panels and scroll, a 200ms move flight; nothing under Reduce Motion, nothing on the typing path."
+    ],
+    "rules": [
+      {
+        "name": "The Ochre Means Act Rule",
+        "body": "Ochre marks focus, unread, and the primary action. Selection itself is neutral: a selected row or segment sits on row-selected fill and a selected rail item on chrome surface, in primary text, and only the list that has focus adds the ochre ring. A view mode (By Publication / Latest) is never ochre.",
+        "section": "colors"
+      },
+      {
+        "name": "The Convention Rule",
+        "body": "State hues mean what an engineer expects (green passed, amber running, red failed, purple reversed) and nothing else. An ordered, paid, open, or unanswered state is plain secondary text, and a declined answer takes a ramp step 5 dot, not a fifth hue.",
+        "section": "colors"
+      },
+      {
+        "name": "The Words Stay Neutral Rule",
+        "body": "In light appearance, ochre fill, pass, and pending fall below 4.5:1 for small text. A state's glyph or dot carries the hue; its word stays in a text token, as the StateWord does (11pt medium secondary).",
+        "section": "colors"
+      },
+      {
+        "name": "The Mono Means Data Rule",
+        "body": "0xProto sets times and dates, counts, amounts, sizes, order numbers, email addresses, commit hashes, `#123` numbers, and `owner/repo` names, including those that appear inside a prose title (set at one point smaller than the title). Prose, names, titles, and state words are never mono; a state word is SF Pro.",
+        "section": "typography"
+      },
+      {
+        "name": "The Figures Trail Rule",
+        "body": "Every list puts its figure on the trailing edge in 11pt tabular 0xProto, tertiary by default and primary only for money.",
+        "section": "typography"
+      },
+      {
+        "name": "The Floating-Only Shadow Rule",
+        "body": "Shadow belongs only to surfaces that float above the window. Columns, rows, chips, bars, and the document panel never cast one.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Document Rule",
+        "body": "Mail HTML keeps the light page it was designed for: in both appearances it renders on #FFFFFF inside a 10pt hairline-bordered panel inset 24pt, so it reads as a document placed on the desk, not as chrome. Plain-text mail is not boxed; it takes the app's own text colors and ochre links.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do take every surface, separator, and text color from the Eucalyptus ramp, in both appearances.",
+      "Do use the one list row (36, 54, 72pt) for every list, including the command bar.",
+      "Do keep all three column headers at 40pt so the hairlines meet.",
+      "Do show row selection as row-selected fill and primary text, and add the 1.5pt ochre ring only on the focused list.",
+      "Do write a state as a StateWord: the hue on a dot or glyph, the word in 11pt medium secondary.",
+      "Do put ochre behind words only as Deep Ochre with On Ochre text.",
+      "Do set times, dates, counts, amounts, order numbers, addresses, and repository names in 0xProto with tabular figures, trailing in lists.",
+      "Do show mail HTML on its own white page inside the 10pt document panel, in both appearances.",
+      "Do animate hover at 80ms, panels and scroll at 120ms ease-out, the move flight at 200ms, and drop all of it under Reduce Motion."
+    ],
+    "donts": [
+      "Don't fill a resting surface, a selected row, or a view-mode segment with ochre.",
+      "Don't set small text in light-appearance ochre fill, pass, or pending; their words stay in text tokens.",
+      "Don't give a bucket its own controls in the header; only the extras in front of Archive, Move, More change.",
+      "Don't add gradients, glass, blur, translucency, or colored side borders to Dingo-drawn surfaces.",
+      "Don't cast shadows from columns, rows, bars, or the document panel; shadow is for floating panels only.",
+      "Don't set names, titles, or state words in 0xProto, or color a state word.",
+      "Don't re-color mail HTML for dark appearance.",
+      "Don't introduce a second icon family; SF Symbols only."
+    ]
+  }
+}
