@@ -1,0 +1,115 @@
+{
+  "id": "18c1f0a2b3c4d5e6",
+  "threadId": "18c1f0a2b3c4d5e6",
+  "labelIds": [
+    "UNREAD",
+    "CATEGORY_PROMOTIONS",
+    "INBOX"
+  ],
+  "snippet": "Five things worth reading this week, from café culture to compilers &amp; more. Don&#39;t miss",
+  "historyId": "9876543",
+  "internalDate": "1731312000000",
+  "sizeEstimate": 18234,
+  "payload": {
+    "partId": "",
+    "mimeType": "multipart/alternative",
+    "filename": "",
+    "headers": [
+      {
+        "name": "Delivered-To",
+        "value": "me@example.com"
+      },
+      {
+        "name": "Received",
+        "value": "from mail.dispatch.example by mx.google.com with ESMTPS id x; Mon, 11 Nov 2024 08:00:00 -0800 (PST)"
+      },
+      {
+        "name": "From",
+        "value": "The Weekly Dispatch <news@dispatch.example>"
+      },
+      {
+        "name": "To",
+        "value": "me@example.com"
+      },
+      {
+        "name": "Subject",
+        "value": "=?UTF-8?Q?Issue_42:_Caf=C3=A9_culture_?= =?UTF-8?B?8J+NlQ==?="
+      },
+      {
+        "name": "Date",
+        "value": "Mon, 11 Nov 2024 08:00:00 +0000"
+      },
+      {
+        "name": "Message-ID",
+        "value": "<issue-42.abc123@dispatch.example>"
+      },
+      {
+        "name": "List-Unsubscribe",
+        "value": "<https://dispatch.example/u/abc>, <mailto:unsubscribe@dispatch.example?subject=unsubscribe>"
+      },
+      {
+        "name": "List-Unsubscribe-Post",
+        "value": "List-Unsubscribe=One-Click"
+      },
+      {
+        "name": "List-Id",
+        "value": "The Weekly Dispatch <weekly.dispatch.example>"
+      },
+      {
+        "name": "Precedence",
+        "value": "bulk"
+      },
+      {
+        "name": "MIME-Version",
+        "value": "1.0"
+      },
+      {
+        "name": "Content-Type",
+        "value": "multipart/alternative; boundary=\"b1\""
+      }
+    ],
+    "body": {
+      "size": 0
+    },
+    "parts": [
+      {
+        "partId": "0",
+        "mimeType": "text/plain",
+        "filename": "",
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "text/plain; charset=\"utf-8\""
+          },
+          {
+            "name": "Content-Transfer-Encoding",
+            "value": "quoted-printable"
+          }
+        ],
+        "body": {
+          "size": 136,
+          "data": "VGhlIFdlZWtseSBEaXNwYXRjaAoKRml2ZSB0aGluZ3Mgd29ydGggcmVhZGluZyB0aGlzIHdlZWssIGZyb20gY2Fmw6kgY3VsdHVyZSB0byBjb21waWxlcnMuCgpVbnN1YnNjcmliZTogaHR0cHM6Ly9kaXNwYXRjaC5leGFtcGxlL3UvYWJjCg=="
+        }
+      },
+      {
+        "partId": "1",
+        "mimeType": "text/html",
+        "filename": "",
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "text/html; charset=\"utf-8\""
+          },
+          {
+            "name": "Content-Transfer-Encoding",
+            "value": "quoted-printable"
+          }
+        ],
+        "body": {
+          "size": 208,
+          "data": "PCFkb2N0eXBlIGh0bWw-PGh0bWw-PGJvZHk-PGgxPlRoZSBXZWVrbHkgRGlzcGF0Y2g8L2gxPjxwPkZpdmUgdGhpbmdzIHdvcnRoIHJlYWRpbmcgdGhpcyB3ZWVrLCBmcm9tIGNhZsOpIGN1bHR1cmUgdG8gY29tcGlsZXJzLjwvcD48cD48YSBocmVmPSJodHRwczovL2Rpc3BhdGNoLmV4YW1wbGUvdS9hYmMiPlVuc3Vic2NyaWJlPC9hPjwvcD48L2JvZHk-PC9odG1sPg=="
+        }
+      }
+    ]
+  }
+}

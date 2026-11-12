@@ -1,0 +1,143 @@
+{
+  "id": "18c400000000cccc",
+  "threadId": "18c400000000cccc",
+  "labelIds": [
+    "CATEGORY_UPDATES",
+    "INBOX"
+  ],
+  "snippet": "Café Lumière Total: €12,50 Thank you!",
+  "historyId": "9876800",
+  "internalDate": "1731322800000",
+  "payload": {
+    "partId": "",
+    "mimeType": "multipart/mixed",
+    "filename": "",
+    "headers": [
+      {
+        "name": "From",
+        "value": "=?ISO-8859-1?Q?Caf=E9_Lumi=E8re=2C_Paris?= <receipts@cafe.example>"
+      },
+      {
+        "name": "To",
+        "value": "\"Me, Myself\" <me@example.com>"
+      },
+      {
+        "name": "Subject",
+        "value": "=?windows-1252?Q?Your_receipt_=96_=8012,50?="
+      },
+      {
+        "name": "Date",
+        "value": "Mon, 11 Nov 2024 11:00:00 +0100"
+      },
+      {
+        "name": "Message-ID",
+        "value": "<r-2041@cafe.example>"
+      },
+      {
+        "name": "Content-Type",
+        "value": "multipart/mixed; boundary=\"mix\""
+      }
+    ],
+    "body": {
+      "size": 0
+    },
+    "parts": [
+      {
+        "partId": "0",
+        "mimeType": "multipart/alternative",
+        "filename": "",
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "multipart/alternative; boundary=\"alt\""
+          }
+        ],
+        "body": {
+          "size": 0
+        },
+        "parts": [
+          {
+            "partId": "0.0",
+            "mimeType": "text/plain",
+            "filename": "",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "text/plain; charset=\"windows-1252\""
+              },
+              {
+                "name": "Content-Transfer-Encoding",
+                "value": "quoted-printable"
+              }
+            ],
+            "body": {
+              "size": 38,
+              "data": "Q2Fm6SBMdW1p6HJlClRvdGFsOiCAMTIsNTAKVGhhbmsgeW91IQo="
+            }
+          },
+          {
+            "partId": "0.1",
+            "mimeType": "text/html",
+            "filename": "",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "text/html; charset=\"windows-1252\""
+              },
+              {
+                "name": "Content-Transfer-Encoding",
+                "value": "quoted-printable"
+              }
+            ],
+            "body": {
+              "size": 39,
+              "data": "PHA-Q2Fm6SBMdW1p6HJlPC9wPjxwPlRvdGFsOiCAMTIsNTA8L3A-"
+            }
+          }
+        ]
+      },
+      {
+        "partId": "1",
+        "mimeType": "application/pdf",
+        "filename": "Reçu-2041.pdf",
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/pdf; name=\"=?UTF-8?Q?Re=C3=A7u-2041.pdf?=\""
+          },
+          {
+            "name": "Content-Disposition",
+            "value": "attachment; filename*=UTF-8''Re%C3%A7u-2041.pdf"
+          },
+          {
+            "name": "Content-Transfer-Encoding",
+            "value": "base64"
+          }
+        ],
+        "body": {
+          "attachmentId": "ANGjdJ_pdf_attachment",
+          "size": 48213
+        }
+      },
+      {
+        "partId": "2",
+        "mimeType": "text/html",
+        "filename": "",
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "text/html; charset=\"utf-8\""
+          },
+          {
+            "name": "Content-Transfer-Encoding",
+            "value": "quoted-printable"
+          }
+        ],
+        "body": {
+          "size": 39,
+          "data": "PHA-LS08YnI-U2VudCB0aHJvdWdoIHRoZSBjYWZlIGxpc3Q8L3A-"
+        }
+      }
+    ]
+  }
+}
