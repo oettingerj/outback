@@ -44,7 +44,18 @@ public enum GmailMessageDecoder {
         var text: (depth: Int, text: String)?
         var calendar: String?
         var inline: [String: ParsedMessage.InlinePart] = [:]
-        var attachments: [ParsedMessage.Attachment] = []
+        /// Files in message order. One with a Content-ID may be drawn by the HTML instead.
+        var files: [(attachment: ParsedMessage.Attachment, contentID: String?)] = []
+
+        /// Every file the HTML doesn't draw. Apple Mail sends each attachment inline with a
+        /// Content-ID, so a Content-ID alone doesn't make a part part of the body.
+        var attachments: [ParsedMessage.Attachment] {
+            files.filter { file in
+                guard let contentID = file.contentID, file.attachment.mimeType.hasPrefix("image/"),
+                      let html = html?.text else { return true }
+                return html.range(of: "cid:\(contentID)", options: .caseInsensitive) == nil
+            }.map(\.attachment)
+        }
 
         mutating func walk(_ part: GmailAPI.MessagePart, depth: Int) {
             let contentType = MIMEHeaderValue(part.header("Content-Type") ?? part.mimeType)
@@ -63,18 +74,20 @@ public enum GmailMessageDecoder {
             if mimeType == "text/calendar" || mimeType == "application/ics" {
                 if calendar == nil, let data { calendar = Charset.decode(data, charset: contentType["charset"]) }
                 if filename != nil || isAttachment {
-                    attachments.append(.init(filename: filename ?? "invite.ics", mimeType: mimeType, size: size,
-                                             attachmentID: part.body?.attachmentID))
+                    files.append((.init(filename: filename ?? "invite.ics", mimeType: mimeType, size: size,
+                                        attachmentID: part.body?.attachmentID), nil))
                 }
                 return
             }
             if let contentID, !isAttachment, !mimeType.hasPrefix("text/") {
                 inline[contentID] = .init(mimeType: mimeType, data: data, attachmentID: part.body?.attachmentID)
+                files.append((.init(filename: filename ?? "attachment", mimeType: mimeType, size: size,
+                                    attachmentID: part.body?.attachmentID), contentID))
                 return
             }
             if filename != nil || isAttachment {
-                attachments.append(.init(filename: filename ?? "attachment", mimeType: mimeType, size: size,
-                                         attachmentID: part.body?.attachmentID))
+                files.append((.init(filename: filename ?? "attachment", mimeType: mimeType, size: size,
+                                    attachmentID: part.body?.attachmentID), nil))
                 return
             }
             guard let data, mimeType == "text/html" || mimeType == "text/plain" else { return }

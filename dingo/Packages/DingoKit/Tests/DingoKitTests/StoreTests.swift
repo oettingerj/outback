@@ -51,11 +51,27 @@ import Testing
             (try AppDatabase.migrator.appliedMigrations(db), try tables.filter { try db.tableExists($0) },
              try db.indexes(on: "message").map(\.columns))
         }
-        #expect(applied == ["v1", "v2"])
+        #expect(applied == ["v1", "v2", "v3"])
         #expect(existing == tables)
         #expect(indexes.contains(["bucket", "internalDate"]))
         #expect(indexes.contains(["accountID", "threadID"]))
         #expect(indexes.contains(["bucket", "isFiled", "internalDate"]))
+    }
+
+    @Test func v3ForgetsBodiesWithInlineParts() async throws {
+        try await save(F.message(id: "plain", from: "Ada <ada@example.com>", subject: "Text", date: day(0)),
+                       F.message(id: "photo", from: "Ada <ada@example.com>", subject: "Photo", date: day(1)), bucket: .inbox)
+        try await store.saveBody(ParsedMessage.Body(text: "hi"), accountID: F.me, messageID: "plain")
+        try await store.saveBody(ParsedMessage.Body(text: "see photo", inline: ["p": .init(mimeType: "image/jpeg", attachmentID: "a")]),
+                                 accountID: F.me, messageID: "photo")
+        // Run v3 again over bodies stored the old way.
+        try await store.writer.write { db in try db.execute(sql: "DELETE FROM grdb_migrations WHERE identifier = 'v3'") }
+        try AppDatabase.migrator.migrate(store.writer)
+
+        #expect(try await store.body(accountID: F.me, messageID: "plain")?.text == "hi")
+        #expect(try await store.body(accountID: F.me, messageID: "photo") == nil)
+        #expect(try await message("plain")?.bodyState == .fetched)
+        #expect(try await message("photo")?.bodyState == MailMessage.BodyState.none)
     }
 
     @Test func accountUpsertKeepsSyncState() async throws {

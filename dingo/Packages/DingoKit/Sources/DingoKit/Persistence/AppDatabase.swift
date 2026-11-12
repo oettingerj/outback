@@ -192,6 +192,15 @@ public final class AppDatabase: Sendable {
             try db.create(index: "message_bucket_filed_date", on: "message", columns: ["bucket", "isFiled", "internalDate"])
             try MailStore.recomputeFiled(db, accountID: nil, messageIDs: nil)
         }
+        migrator.registerMigration("v3") { db in
+            // Bodies decoded before files with a Content-ID could be attachments listed none of them.
+            // Forget bodies with inline parts so they are fetched and decoded again.
+            try db.execute(sql: """
+                UPDATE message SET bodyState = 'none'
+                WHERE (accountID, id) IN (SELECT accountID, messageID FROM messageBody WHERE inlineJSON != '{}');
+                DELETE FROM messageBody WHERE inlineJSON != '{}';
+                """)
+        }
         return migrator
     }
 }

@@ -97,6 +97,31 @@ import Testing
         #expect(message.internalDate == Date(timeIntervalSince1970: 1))
     }
 
+    @Test func appleMailInlineFilesAreAttachmentsUnlessDrawn() throws {
+        // Apple Mail sends every file with Content-Disposition: inline and a Content-ID. Only an
+        // image the HTML draws is part of the body; the rest are attachments.
+        func part(_ mimeType: String, _ filename: String, cid: String, id: String) -> String {
+            """
+            {"mimeType":"\(mimeType)","filename":"\(filename)","headers":[
+             {"name":"Content-Disposition","value":"inline; filename=\\"\(filename)\\""},
+             {"name":"Content-Id","value":"<\(cid)>"}],"body":{"size":10,"attachmentId":"\(id)"}}
+            """
+        }
+        let html = Data(#"<p>Look</p><img src="cid:DRAWN-1">"#.utf8).base64URLEncodedString()
+        let json = """
+        {"id":"m1","threadId":"t1","historyId":1,"internalDate":"1000","payload":{"mimeType":"multipart/mixed","filename":"",
+         "headers":[],"body":{"size":0},"parts":[
+          {"mimeType":"text/html","filename":"","headers":[],"body":{"size":10,"data":"\(html)"}},
+          \(part("image/jpeg", "drawn.jpeg", cid: "drawn-1", id: "a1")),
+          \(part("image/jpeg", "IMG_0001.jpeg", cid: "photo-2", id: "a2")),
+          \(part("application/pdf", "Lease.pdf", cid: "lease-3", id: "a3"))]}}
+        """
+        let message = GmailMessageDecoder.decode(try JSONDecoder().decode(GmailAPI.Message.self, from: Data(json.utf8)), accountID: "a")
+        #expect(message.attachments.map(\.filename) == ["IMG_0001.jpeg", "Lease.pdf"])
+        #expect(message.attachments.map(\.attachmentID) == ["a2", "a3"])
+        #expect(Set(try #require(message.body).inline.keys) == ["drawn-1", "photo-2", "lease-3"])
+    }
+
     @Test func messageRoundTripsThroughCodable() throws {
         let url = try #require(Bundle.module.url(forResource: "invite", withExtension: "json", subdirectory: "Fixtures/gmail"))
         let message = try JSONDecoder().decode(GmailAPI.Message.self, from: Data(contentsOf: url))
