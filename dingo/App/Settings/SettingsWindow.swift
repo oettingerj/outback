@@ -47,6 +47,12 @@ enum Preferences {
         set { UserDefaults.standard.set(newValue, forKey: "ArchivesSortedMail") }
     }
 
+    /// Load remote images in every message, not only from trusted senders.
+    static var loadsRemoteImages: Bool {
+        get { UserDefaults.standard.bool(forKey: "LoadsRemoteImages") }
+        set { UserDefaults.standard.set(newValue, forKey: "LoadsRemoteImages") }
+    }
+
     /// Notify for new mail in the Inbox. Buckets never notify.
     static var notifiesNewMail: Bool {
         get { UserDefaults.standard.object(forKey: "NotifiesNewMail") as? Bool ?? true }
@@ -64,6 +70,7 @@ private struct SettingsPage: View {
     @State private var markRead = Preferences.markReadDelay != nil
     @State private var archives = Preferences.archivesSortedMail
     @State private var notifies = Preferences.notifiesNewMail
+    @State private var loadsRemote = Preferences.loadsRemoteImages
     @State private var syncDays = Preferences.syncWindowDays
     @State private var accountError: String?
 
@@ -121,6 +128,9 @@ private struct SettingsPage: View {
                                 Text("30 days").tag(30); Text("90 days").tag(90); Text("1 year").tag(365)
                             }
                             .labelsHidden().fixedSize().onChange(of: syncDays) { Preferences.syncWindowDays = syncDays }
+                        }
+                        row("Load remote images in all mail", "Senders can see when you open their mail. When off, images load only from senders you trust.") {
+                            Toggle("", isOn: $loadsRemote).settingsSwitch().onChange(of: loadsRemote) { Preferences.loadsRemoteImages = loadsRemote }
                         }
                         ForEach(trusted, id: \.self) { sender in
                             row(sender, "Loads remote images") {

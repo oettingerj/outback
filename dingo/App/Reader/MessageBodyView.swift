@@ -4,7 +4,8 @@ import Eucalyptus
 import SwiftUI
 
 /// Loads a message's body from the cache, or from Gmail the first time it is opened, and shows it
-/// in the reader web view. Remote images wait behind a one-line offer until the sender is trusted.
+/// in the reader web view. Remote images wait behind a one-line offer until the sender is trusted,
+/// unless Settings loads them in all mail.
 struct MessageBodyView: View {
     let message: MailMessage
     var measure: CGFloat = 680
@@ -47,7 +48,7 @@ struct MessageBodyView: View {
             body_ = nil
             failed = nil
             height = 120
-            allowsRemote = RemoteContent.isTrusted(message.fromEmail)
+            allowsRemote = Preferences.loadsRemoteImages || RemoteContent.isTrusted(message.fromEmail)
             do {
                 body_ = try await AppServices.shared.body(for: message)
                 AppServices.shared.markReadOnOpen(message)
