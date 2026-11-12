@@ -48,6 +48,8 @@ final class MailWindowController: NSWindowController, NSWindowDelegate {
     private func updateHeaders() {
         let destination = model.destination
         let count: String? = switch destination {
+        case .bucket(.receipts):
+            model.months.first { $0.month == model.selectedMonth }.map { "\($0.count) in \($0.month.formatted(.dateTime.month(.wide)))" }
         case .bucket(let bucket): (model.unreadCounts[bucket] ?? 0) > 0 ? "\(model.unreadCounts[bucket]!) unread" : nil
         case .mailbox: model.threads.isEmpty ? nil : "\(model.threads.count)"
         }
@@ -57,6 +59,8 @@ final class MailWindowController: NSWindowController, NSWindowDelegate {
             button("square.and.pencil", "New Message", #selector(AppDelegate.newMessage(_:))),
         ])
         root.detailHeader.set(title: "")
+        // Every bucket ends the same way under the hand: archive, move, more. Only the extras
+        // in front of them change with the kind of mail.
         var actions: [NSView] = []
         let hasTarget = !model.actionTarget.isEmpty
         switch destination {
@@ -66,24 +70,11 @@ final class MailWindowController: NSWindowController, NSWindowDelegate {
                 button("arrowshape.turn.up.left.2", "Reply All", #selector(AppDelegate.replyAll(_:))),
                 button("arrowshape.turn.up.right", "Forward", #selector(AppDelegate.forward(_:))),
                 spacer(),
-                button("archivebox", "Archive", #selector(AppDelegate.archive(_:))),
-                moveButton(),
-                button("trash", "Move to Trash", #selector(AppDelegate.trash(_:))),
             ]
-        case .bucket(.newsletters):
-            actions = [
-                button("envelope.badge", "Mark as Unread", #selector(AppDelegate.toggleRead(_:))),
-                button("archivebox", "Archive", #selector(AppDelegate.archive(_:))),
-                moveButton(),
-                button("safari", "Open in Browser", #selector(AppDelegate.openInGmail(_:))),
-            ]
-        case .bucket(.notifications), .bucket(.receipts), .bucket(.calendar):
-            actions = [
-                button("archivebox", "Archive", #selector(AppDelegate.archive(_:))),
-                moveButton(),
-                button("trash", "Move to Trash", #selector(AppDelegate.trash(_:))),
-            ]
+        default:
+            break
         }
+        actions += [button("archivebox", "Archive", #selector(AppDelegate.archive(_:))), moveButton(), moreButton()]
         for case let control as NSControl in actions { control.isEnabled = hasTarget }
         root.detailHeader.set(buttons: actions)
     }
@@ -105,6 +96,38 @@ final class MailWindowController: NSWindowController, NSWindowDelegate {
         let button = IconButton(symbol: "tray.and.arrow.down", label: "Move to Bucket (M)", action: #selector(showMoveMenu(_:)), target: self)
         button.setAccessibilityLabel("Move to Bucket")
         return button
+    }
+
+    /// More: read state, star, trash, sender rules, and Gmail, the same list in every bucket.
+    private func moreButton() -> IconButton {
+        let button = IconButton(symbol: "ellipsis", label: "More", action: #selector(showMoreMenu(_:)), target: self)
+        button.setAccessibilityLabel("More actions")
+        return button
+    }
+
+    @objc func showMoreMenu(_ sender: NSView) {
+        let menu = NSMenu(title: "More")
+        let messages = model.actionTarget
+        let unread = messages.contains(where: \.isUnread), starred = messages.contains(where: \.isStarred)
+        menu.addItem(withTitle: unread ? "Mark as Read" : "Mark as Unread", action: #selector(AppDelegate.toggleRead(_:)), keyEquivalent: "")
+        menu.addItem(withTitle: starred ? "Remove Star" : "Star", action: #selector(AppDelegate.toggleStar(_:)), keyEquivalent: "")
+        menu.addItem(.separator())
+        let always = NSMenuItem(title: "Always Put Mail from Sender In", action: nil, keyEquivalent: "")
+        always.submenu = NSMenu()
+        for (index, bucket) in Bucket.allCases.enumerated() {
+            let item = NSMenuItem(title: bucket.title, action: #selector(AppDelegate.alwaysMoveSender(_:)), keyEquivalent: "")
+            item.tag = index
+            always.submenu?.addItem(item)
+        }
+        menu.addItem(always)
+        if messages.first.map({ Unsubscribe.target(for: $0) != nil }) == true {
+            menu.addItem(withTitle: "Unsubscribe", action: #selector(AppDelegate.unsubscribe(_:)), keyEquivalent: "")
+        }
+        menu.addItem(.separator())
+        menu.addItem(withTitle: "Open in Gmail", action: #selector(AppDelegate.openInGmail(_:)), keyEquivalent: "")
+        menu.addItem(.separator())
+        menu.addItem(withTitle: "Move to Trash", action: #selector(AppDelegate.trash(_:)), keyEquivalent: "")
+        menu.popUp(positioning: nil, at: NSPoint(x: 0, y: sender.bounds.height + 4), in: sender)
     }
 
     @objc func showMoveMenu(_ sender: NSView) {
@@ -169,8 +192,8 @@ enum MoveMenu {
                 }
             }
             item.image = NSImage(systemSymbolName: bucket.symbol, accessibilityDescription: nil)
-            item.keyEquivalent = "\(index + 1)"
-            item.keyEquivalentModifierMask = []
+            // No digits beside the names: they read as counts. Type-select (the first letter) picks one.
+            _ = index
             item.state = current == [bucket] ? .on : .off
             item.isEnabled = !messages.isEmpty && current != [bucket]
             menu.addItem(item)

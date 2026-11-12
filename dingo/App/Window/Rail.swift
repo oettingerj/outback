@@ -66,7 +66,7 @@ struct RailView: View {
 }
 
 /// A 17pt symbol over a 10pt label, with the unread count in 0xProto at the symbol's corner.
-/// Selected: accent symbol and label on hover fill.
+/// Selected: primary symbol and label on hover fill; ochre stays on the unread counts.
 private struct RailItem: View {
     let destination: Destination
     let count: Int?
@@ -99,7 +99,7 @@ private struct RailItem: View {
                     }
                 Text(destination.title).font(.system(size: 10, weight: .medium)).lineLimit(1).fixedSize()
             }
-            .foregroundStyle(isSelected ? pageAccentText : pageSecondary)
+            .foregroundStyle(isSelected ? pagePrimary : pageSecondary)
             .frame(width: 64, height: 52)
             .background(RoundedRectangle(cornerRadius: Theme.controlRadius, style: .continuous)
                 .fill(Color(nsColor: isSelected ? Theme.hoverFill : isHovered ? Theme.neutral(4).withAlphaComponent(0.5) : .clear)))

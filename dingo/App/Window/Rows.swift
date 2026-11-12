@@ -36,6 +36,11 @@ struct ListRow<Trailing: View>: View {
     var showsDot = true
     /// Canceled things keep their row with the title struck through.
     var isStruck = false
+    /// Repository names and figures set in 0xProto.
+    var titleIsMono = false
+    /// Two lines where the title is the content (issue titles under a publication).
+    var titleLines = 1
+    var subtitleIsMono = false
     @ViewBuilder var trailing: Trailing
     @State private var isHovered = false
 
@@ -44,16 +49,19 @@ struct ListRow<Trailing: View>: View {
             if showsDot { UnreadDot(isUnread: isUnread).alignmentGuide(.firstTextBaseline) { $0[VerticalAlignment.center] + 4 } }
             VStack(alignment: .leading, spacing: 3) {
                 HStack(alignment: .firstTextBaseline, spacing: 8) {
-                    Text(title)
-                        .font(.system(size: 13, weight: titleWeight ?? (isUnread ? .semibold : .regular)))
+                    Text(MonoRuns.styled(title, size: 13, mono: titleIsMono))
+                        .font(titleIsMono ? .mono(size: 12, weight: isUnread ? .semibold : .regular)
+                              : .system(size: 13, weight: titleWeight ?? (isUnread ? .semibold : .regular)))
                         .foregroundStyle(isStruck ? pageTertiary : pagePrimary)
                         .strikethrough(isStruck, color: pageTertiary)
-                        .lineLimit(1)
+                        .lineLimit(titleLines)
+                        .fixedSize(horizontal: false, vertical: titleLines > 1)
                     Spacer(minLength: 8)
                     trailing
                 }
                 if let subtitle {
-                    Text(subtitle).font(.system(size: 12)).foregroundStyle(isUnread ? pagePrimary : pageSecondary).lineLimit(1)
+                    Text(subtitle).font(subtitleIsMono ? .mono(size: 11) : .system(size: 12))
+                        .foregroundStyle(isUnread ? pagePrimary : pageSecondary).lineLimit(1)
                 }
                 if let detail {
                     Text(detail).font(.system(size: 12)).foregroundStyle(pageTertiary).lineLimit(1)
@@ -61,7 +69,9 @@ struct ListRow<Trailing: View>: View {
             }
         }
         .padding(.horizontal, 12)
-        .frame(height: detail != nil ? 72 : subtitle == nil ? 36 : 54)
+        .frame(minHeight: titleLines > 1 ? 54 : nil)
+        .frame(height: titleLines > 1 ? nil : detail != nil ? 72 : subtitle == nil ? 36 : 54)
+        .padding(.vertical, titleLines > 1 ? 8 : 0)
         .background {
             RoundedRectangle(cornerRadius: Theme.controlRadius, style: .continuous)
                 .fill(Color(nsColor: isSelected ? Theme.hoverFill : isHovered ? Theme.neutral(2) : .clear))
@@ -84,6 +94,26 @@ extension ListRow where Trailing == FigureText {
          isSelected: Bool = false, isFocused: Bool = false, titleWeight: Font.Weight? = nil, showsDot: Bool = true) {
         self.init(isUnread: isUnread, title: title, subtitle: subtitle, detail: detail, isSelected: isSelected,
                   isFocused: isFocused, titleWeight: titleWeight, showsDot: showsDot, isStruck: false) { FigureText(text: figure ?? "") }
+    }
+}
+
+/// Sets commit hashes, PR and issue numbers, and `owner/repo` names inside prose in 0xProto,
+/// so engineering identifiers read the same in every list.
+enum MonoRuns {
+    private static let pattern = try! NSRegularExpression(pattern: #"\b[0-9a-f]{7,40}\b|#\d+|\b[\w.-]+/[\w.-]+\b"#)
+
+    static func styled(_ text: String, size: CGFloat, mono: Bool) -> AttributedString {
+        var result = AttributedString(text)
+        guard !mono else { return result }
+        for match in pattern.matches(in: text, range: NSRange(text.startIndex..., in: text)) {
+            guard let range = Range(match.range, in: text), let marked = Range(range, in: result) else { continue }
+            let token = text[range]
+            // Hex runs only count when they carry a digit, so "decade" stays prose.
+            if !token.contains("/"), !token.hasPrefix("#"), !token.contains(where: \.isNumber) { continue }
+            if token.contains("/"), token.contains(where: { $0 == "." && token.hasPrefix("http") }) { continue }
+            result[marked].font = .mono(size: size - 1)
+        }
+        return result
     }
 }
 

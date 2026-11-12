@@ -24,11 +24,15 @@ struct MessageBodyView: View {
                         allowsRemote = true
                     }
                 }
+                let isHTML = !(body_.html ?? "").isEmpty
                 MessageWebView(document: MessageDocument(id: message.id, html: body_.html, text: body_.text ?? message.snippet,
                                                          allowsRemoteContent: allowsRemote, measure: measure),
                                inlinePart: { cid in await AppServices.shared.inlinePart(cid: cid, in: message, body: body_) },
                                height: $height)
                     .frame(height: max(height, 60))
+                    // Mail HTML is designed for its own light page: it sits in a panel, inset like
+                    // every other surface, so it reads as the document in both appearances.
+                    .modifier(DocumentPanel(isActive: isHTML))
                 AttachmentStrip(message: message)
             } else if let failed {
                 Text(failed).font(.system(size: 12)).foregroundStyle(Color(nsColor: Theme.fail)).padding(24)
@@ -50,6 +54,20 @@ struct MessageBodyView: View {
             } catch {
                 failed = "Couldn’t load this message: \(error.localizedDescription)"
             }
+        }
+    }
+}
+
+private struct DocumentPanel: ViewModifier {
+    let isActive: Bool
+    func body(content: Content) -> some View {
+        if isActive {
+            let shape = RoundedRectangle(cornerRadius: Theme.panelRadius, style: .continuous)
+            content.clipShape(shape)
+                .overlay(shape.strokeBorder(Color(nsColor: Theme.hairline), lineWidth: 1))
+                .padding(.horizontal, 24).padding(.vertical, 12)
+        } else {
+            content
         }
     }
 }

@@ -88,7 +88,7 @@ final class MailWindowModel {
     var selectedThread: ThreadKey?
     var selectedIssue: MessageKey?
     /// Nil is "every publication", newest issue first.
-    var newsletterGrouping: NewsletterGrouping = .latest
+    var newsletterGrouping: NewsletterGrouping = .publication
     var selectedSource: String? { didSet { if selectedSource != oldValue { observeNotifications() } } }
     var selectedNotification: MessageKey?
     var selectedMonth: Date? { didSet { if selectedMonth != oldValue { observeReceipts() } } }

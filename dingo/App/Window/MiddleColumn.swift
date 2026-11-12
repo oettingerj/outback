@@ -107,7 +107,7 @@ private struct IssueList: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            SegmentedChoice(selection: $model.newsletterGrouping, options: [(.latest, "Latest"), (.publication, "By Publication")])
+            SegmentedChoice(selection: $model.newsletterGrouping, options: [(.publication, "By Publication"), (.latest, "Latest")])
                 .padding(.horizontal, 12).padding(.top, 10).padding(.bottom, 4)
             if model.issues.isEmpty {
                 EmptyListNote(title: "Nothing to read yet", detail: "Newsletters you subscribe to collect here, with their publication on every issue.")
@@ -130,9 +130,11 @@ private struct IssueList: View {
     private func row(_ issue: MailMessage, showsPublication: Bool) -> some View {
         let key = MessageKey(issue)
         return ListRow(isUnread: issue.isUnread, title: showsPublication ? issue.from.displayName : issue.subject,
-                       subtitle: showsPublication ? issue.subject : nil, figure: MailDate.short(issue.internalDate),
+                       subtitle: showsPublication ? issue.subject : nil,
                        isSelected: model.selectedIssue == key, isFocused: model.focus == .middle,
-                       titleWeight: showsPublication ? .medium : nil)
+                       titleWeight: showsPublication ? .medium : nil, titleLines: showsPublication ? 1 : 2) {
+            FigureText(text: MailDate.short(issue.internalDate))
+        }
             .id(key)
             .onTapGesture { model.selectedIssue = key }
             .contextMenu { MessageContextMenu(messages: [issue], wholeThread: false) }
@@ -158,8 +160,10 @@ private struct SourceList: View {
                     ListSectionHeader(title: group.title)
                     ForEach(group.sources, id: \.id) { source in
                         ListRow(isUnread: source.unreadCount > 0, title: source.title,
-                                figure: source.unreadCount > 0 ? "\(source.unreadCount)" : "\(source.count)",
-                                isSelected: model.selectedSource == source.id, isFocused: model.focus == .middle)
+                                isSelected: model.selectedSource == source.id, isFocused: model.focus == .middle,
+                                titleIsMono: source.kind == .github) {
+                            FigureText(text: source.unreadCount > 0 ? "\(source.unreadCount)" : "\(source.count)")
+                        }
                             .id(source.id as String?)
                             .onTapGesture { model.selectedSource = source.id; model.focus = .middle }
                     }
@@ -243,7 +247,8 @@ private struct AgendaList: View {
         return ListRow(isUnread: event.myResponse == nil && !event.isCanceled && event.method == .request,
                        title: event.summary ?? item.message.subject,
                        subtitle: EventFormat.when(event, compact: true),
-                       isSelected: model.selectedEvent == key, isFocused: model.focus == .middle, isStruck: event.isCanceled) {
+                       isSelected: model.selectedEvent == key, isFocused: model.focus == .middle, isStruck: event.isCanceled,
+                       subtitleIsMono: true) {
             ResponseMark(event: event)
         }
         .id(key)

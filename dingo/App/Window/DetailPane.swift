@@ -99,7 +99,7 @@ private struct ConversationDetail: View {
                             .buttonStyle(.plain)
                         }
                     }
-                    ReplyBar(message: messages.last)
+                    Spacer(minLength: 32)
                 }
                 .frame(maxWidth: 820, alignment: .leading)
             }
@@ -115,22 +115,6 @@ private struct ConversationDetail: View {
     }
 }
 
-/// Reply, Reply All, Forward under the last message.
-private struct ReplyBar: View {
-    let message: MailMessage?
-    var body: some View {
-        if let message {
-            HStack(spacing: 8) {
-                Button { Compose.open(.reply(message, all: false)) } label: { Label("Reply", systemImage: "arrowshape.turn.up.left") }
-                Button { Compose.open(.reply(message, all: true)) } label: { Label("Reply All", systemImage: "arrowshape.turn.up.left.2") }
-                Button { Compose.open(.forward(message)) } label: { Label("Forward", systemImage: "arrowshape.turn.up.right") }
-            }
-            .controlSize(.regular)
-            .padding(.horizontal, 24).padding(.vertical, 20)
-        }
-    }
-}
-
 // MARK: Newsletters
 
 private struct IssueDetail: View {
@@ -141,11 +125,11 @@ private struct IssueDetail: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 0) {
                     VStack(alignment: .leading, spacing: 6) {
-                        Text(issue.from.displayName).font(.system(size: 12, weight: .medium)).foregroundStyle(pageAccentText)
                         Text(issue.subject.nonEmpty ?? "(untitled issue)").font(.system(size: 24, weight: .semibold)).foregroundStyle(pagePrimary)
                             .textSelection(.enabled).fixedSize(horizontal: false, vertical: true)
                             .accessibilityAddTraits(.isHeader)
-                        HStack(spacing: 12) {
+                        HStack(alignment: .firstTextBaseline, spacing: 12) {
+                            Text(issue.from.displayName).font(.system(size: 12, weight: .semibold)).foregroundStyle(pagePrimary)
                             FigureText(text: MailDate.long(issue.internalDate))
                             PublicationActions(issue: issue)
                         }
@@ -155,6 +139,7 @@ private struct IssueDetail: View {
                     .padding(.horizontal, 32).padding(.top, 28).padding(.bottom, 18)
                     MessageBodyView(message: issue, measure: 680)
                         .frame(maxWidth: 744)
+                        .padding(.bottom, 32)
                 }
                 .frame(maxWidth: .infinity)
             }
@@ -197,8 +182,10 @@ private struct NotificationLog: View {
         } else {
             VStack(spacing: 0) {
                 HStack {
-                    Text(model.sources.first { $0.id == model.selectedSource }?.title ?? "All Sources")
-                        .font(.system(size: 13, weight: .semibold)).foregroundStyle(pagePrimary)
+                    let source = model.sources.first { $0.id == model.selectedSource }
+                    Text(source?.title ?? "All Sources")
+                        .font(source?.kind == .github ? .mono(size: 12, weight: .bold) : .system(size: 13, weight: .semibold))
+                        .foregroundStyle(pagePrimary)
                     FigureText(text: "\(model.notifications.count)")
                     Spacer()
                     Button("Mark All Read") { Task { await AppServices.shared.actions.setUnread(model.notifications.filter(\.isUnread), false) } }
@@ -214,8 +201,13 @@ private struct NotificationLog: View {
                         let key = MessageKey(note)
                         let isSelected = model.selectedNotification == key
                         VStack(alignment: .leading, spacing: 0) {
-                            ListRow(isUnread: note.isUnread, title: note.subject, subtitle: NotificationText.summary(note),
-                                    figure: MailDate.short(note.internalDate), isSelected: isSelected, isFocused: model.focus == .detail)
+                            ListRow(isUnread: note.isUnread, title: NotificationText.title(note), subtitle: NotificationText.summary(note),
+                                    isSelected: isSelected, isFocused: model.focus == .detail) {
+                                HStack(spacing: 8) {
+                                    CIStateMark(state: NotificationText.ciState(note))
+                                    FigureText(text: MailDate.short(note.internalDate))
+                                }
+                            }
                             if isSelected { NotificationExpansion(message: note) }
                         }
                         .id(key)
@@ -256,7 +248,47 @@ private struct NotificationExpansion: View {
     }
 }
 
+/// A CI run's outcome in the state colors, beside the time.
+struct CIStateMark: View {
+    let state: NotificationText.CIState?
+    var body: some View {
+        switch state {
+        case .failed?: Label("Failed", systemImage: "xmark.circle.fill").labelStyle(StateLabelStyle(color: Color(nsColor: Theme.fail)))
+        case .passed?: Label("Passed", systemImage: "checkmark.circle.fill").labelStyle(StateLabelStyle(color: Color(nsColor: Theme.pass)))
+        case .running?: Label("Running", systemImage: "circle.dotted").labelStyle(StateLabelStyle(color: Color(nsColor: Theme.pending)))
+        case nil: EmptyView()
+        }
+    }
+}
+
+private struct StateLabelStyle: LabelStyle {
+    let color: Color
+    func makeBody(configuration: Configuration) -> some View {
+        HStack(spacing: 4) {
+            configuration.icon.font(.system(size: 10, weight: .semibold))
+            configuration.title.font(.system(size: 11, weight: .medium))
+        }
+        .foregroundStyle(color)
+    }
+}
+
 enum NotificationText {
+    enum CIState { case failed, passed, running }
+
+    /// CI outcome from the subject line GitHub, Vercel, and most CI services send.
+    static func ciState(_ message: MailMessage) -> CIState? {
+        let subject = message.subject.lowercased()
+        if subject.range(of: #"\b(run failed|failed|failing|failure|errored|broken)\b"#, options: .regularExpression) != nil { return .failed }
+        if subject.range(of: #"\b(run (succeeded|passed)|succeeded|passed|fixed|deploy(ment)? (succeeded|ready))\b"#, options: .regularExpression) != nil { return .passed }
+        if subject.range(of: #"\b(in progress|queued|running)\b"#, options: .regularExpression) != nil { return .running }
+        return nil
+    }
+
+    /// The subject without the "[owner/repo]" prefix the source column already shows.
+    static func title(_ message: MailMessage) -> String {
+        message.subject.replacingOccurrences(of: #"^(Re: )?\[[^\]]+\]\s*"#, with: "$1", options: .regularExpression)
+    }
+
     /// The snippet minus GitHub's "@user commented on this pull request" boilerplate tail.
     static func summary(_ message: MailMessage) -> String {
         message.snippet.replacingOccurrences(of: #"\s*—\s*Reply to this email directly.*$"#, with: "", options: .regularExpression)
@@ -303,7 +335,10 @@ private struct ReceiptLedger: View {
         if model.receipts.isEmpty {
             NoSelection(text: "No receipts this month.")
         } else {
-            VSplitView {
+            GeometryReader { geometry in
+                // The ledger is as tall as its rows (up to half the pane, then it scrolls); the
+                // totals sit right under it, and the selected receipt fills what remains.
+                let ledger = min(CGFloat(model.receipts.count) * 37 + 12, geometry.size.height * 0.5)
                 VStack(spacing: 0) {
                     LedgerHeader()
                     SettingsRule()
@@ -316,18 +351,20 @@ private struct ReceiptLedger: View {
                                 .contextMenu { MessageContextMenu(messages: [row.message], wholeThread: false) }
                         }
                     }
+                    .frame(height: ledger)
                     SettingsRule()
                     LedgerTotals(month: model.months.first { $0.month == model.selectedMonth })
-                }
-                .frame(minHeight: 180)
-                if let key = model.selectedReceipt, let row = model.receipts.first(where: { MessageKey($0.message) == key }) {
-                    ScrollView {
-                        VStack(alignment: .leading, spacing: 0) {
-                            MessageHeader(message: row.message).padding(.horizontal, 24).padding(.top, 16)
-                            MessageBodyView(message: row.message, measure: 680)
+                    SettingsRule()
+                    if let key = model.selectedReceipt, let row = model.receipts.first(where: { MessageKey($0.message) == key }) {
+                        ScrollView {
+                            VStack(alignment: .leading, spacing: 0) {
+                                MessageHeader(message: row.message).padding(.horizontal, 24).padding(.top, 16)
+                                MessageBodyView(message: row.message, measure: 680).padding(.bottom, 24)
+                            }
                         }
+                    } else {
+                        NoSelection(text: "Select a receipt to see the original.")
                     }
-                    .frame(minHeight: 160)
                 }
             }
         }
@@ -433,7 +470,7 @@ private struct InviteDetail: View {
                     } else if event.method == .request {
                         RSVPBar(row: row)
                     }
-                    PreviewFactGrid(facts: facts(event))
+                    PreviewFactGrid(facts: facts(event)).tint(pageAccentText)
                     if !event.attendees.isEmpty { AttendeeList(attendees: event.attendees) }
                     if let notes = event.notes?.trimmingCharacters(in: .whitespacesAndNewlines), !notes.isEmpty {
                         Text(notes).font(.system(size: 12)).foregroundStyle(pageSecondary).textSelection(.enabled)
@@ -566,6 +603,7 @@ private struct NoticeBar: View {
                 }
                 .buttonStyle(SettingsPrimaryButtonStyle())
                 Button("Just This") { model.notice = nil }.controlSize(.small)
+                Button("Undo") { NSApp.sendAction(Selector(("undo:")), to: nil, from: nil); model.notice = nil }.controlSize(.small)
             case .error(let text):
                 Image(systemName: "exclamationmark.triangle.fill").font(.system(size: 11)).foregroundStyle(Color(nsColor: Theme.fail))
                 Text(text).font(.system(size: 12)).foregroundStyle(pagePrimary).lineLimit(2)
