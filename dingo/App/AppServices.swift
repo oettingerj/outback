@@ -225,10 +225,11 @@ final class AppServices {
     }
 
     func inlinePart(cid: String, in message: MailMessage, body: MailBody) async -> (Data, String)? {
-        guard let part = body.inline[cid] ?? body.inline["<\(cid)>"] else { return nil }
+        guard let key = [cid, "<\(cid)>"].first(where: { body.inline[$0] != nil }), let part = body.inline[key] else { return nil }
         if let data = part.data { return (data, part.mimeType) }
         guard let attachmentID = part.attachmentID, let sync = sync(for: message.accountID),
               let data = try? await sync.client.attachment(messageID: message.id, attachmentID: attachmentID) else { return nil }
+        try? await store.saveInlineData(data, cid: key, accountID: message.accountID, messageID: message.id)
         return (data, part.mimeType)
     }
 

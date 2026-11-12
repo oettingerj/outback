@@ -355,6 +355,20 @@ import Testing
         #expect(try await store.read { db in try MailStore.events(db, accountIDs: nil) }.isEmpty)
     }
 
+    @Test func downloadedInlinePartIsKept() async throws {
+        try await save(F.message(id: "i1", from: "Ada <ada@example.com>", subject: "Logo", date: day(0)), bucket: .inbox)
+        try await store.saveBody(ParsedMessage.Body(html: #"<img src="cid:logo">"#,
+                                                    inline: ["<logo>": .init(mimeType: "image/png", attachmentID: "att")]),
+                                 accountID: F.me, messageID: "i1")
+        try await store.saveInlineData(Data([1, 2, 3]), cid: "<logo>", accountID: F.me, messageID: "i1")
+        try await store.saveInlineData(Data([9]), cid: "<missing>", accountID: F.me, messageID: "i1")
+
+        let inline = try await store.body(accountID: F.me, messageID: "i1")?.inline
+        #expect(inline?["<logo>"]?.data == Data([1, 2, 3]))
+        #expect(inline?["<logo>"]?.attachmentID == "att")
+        #expect(inline?.count == 1, "an unknown Content-ID adds nothing")
+    }
+
     @Test func searchIsNewestFirstAndSkipsTrash() async throws {
         try await save(F.message(id: "old", from: "A <a@x.example>", subject: "Invoice one", date: day(0)),
                        F.message(id: "new", from: "A <a@x.example>", subject: "Invoice two", date: day(1)),

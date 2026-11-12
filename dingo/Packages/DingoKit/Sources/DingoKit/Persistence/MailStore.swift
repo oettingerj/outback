@@ -117,6 +117,17 @@ public final class MailStore: Sendable {
         }
     }
 
+    /// Keeps an inline part's bytes once they are downloaded, so the next open of the message
+    /// reads them from the body row instead of asking Gmail again.
+    public func saveInlineData(_ data: Data, cid: String, accountID: String, messageID: String) async throws {
+        try await writer.write { db in
+            guard var body = try MailBody.fetchOne(db, key: ["accountID": accountID, "messageID": messageID]),
+                  body.inline[cid] != nil else { return }
+            body.inline[cid]?.data = data
+            try body.update(db)
+        }
+    }
+
     /// Marks messages whose full fetch is done but had nothing to store, so sync stops asking for them.
     public func markBodiesFetched(accountID: String, messageIDs: [String]) async throws {
         _ = try await writer.write { db in

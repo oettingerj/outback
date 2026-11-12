@@ -129,7 +129,7 @@ final class ComposeDraft {
     @ObservationIgnored private(set) var quotedBody: String = ""
     private func loadQuote(_ message: MailMessage) async {
         let body = try? await AppServices.shared.body(for: message)
-        let text = body?.text ?? body?.html.map(NotificationText.stripTags) ?? message.snippet
+        let text = body?.text ?? body?.html.map(BodyText.plain(fromHTML:)) ?? message.snippet
         quotedBody = !isForward ? text.components(separatedBy: "\n").map { "> \($0)" }.joined(separator: "\n") : text
         if isForward {
             attachmentsToForward = (try? await AppServices.shared.store.attachments(accountID: message.accountID, messageID: message.id)) ?? []

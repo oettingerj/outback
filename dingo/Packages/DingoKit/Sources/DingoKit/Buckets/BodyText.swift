@@ -1,9 +1,9 @@
 import Foundation
 
-/// Plain text from HTML mail, for search and for the receipt parser's fallback. It keeps words and
-/// line breaks between blocks; it does not try to render.
-enum BodyText {
-    static func plain(fromHTML html: String) -> String {
+/// Plain text from HTML mail, for search, the receipt parser's fallback, notification text, and
+/// reply quotes. It keeps words and line breaks between blocks; it does not try to render.
+public enum BodyText {
+    public static func plain(fromHTML html: String) -> String {
         var text = html
         for pattern in [#"(?is)<(script|style|head|title)\b.*?</\1\s*>"#, #"(?s)<!--.*?-->"#] {
             text = text.replacingOccurrences(of: pattern, with: " ", options: .regularExpression)

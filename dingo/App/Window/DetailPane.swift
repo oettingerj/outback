@@ -220,15 +220,21 @@ private struct NotificationLog: View {
     }
 }
 
-/// The selected notification: its text, and a button to the page it is about.
+/// The selected notification: its text, and a button to the page it is about. The text is a
+/// stripped gist that keeps the log dense; Show Full Message renders the original on request,
+/// for senders whose mail only makes sense as HTML.
 private struct NotificationExpansion: View {
     let message: MailMessage
     @State private var text: String?
     @State private var link: URL?
+    @State private var showsFull = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            if let text, !text.isEmpty, text != NotificationText.summary(message) {
+            if showsFull {
+                // The body view insets its own 24pt; pulling it out by that much lines its panel up with the text.
+                MessageBodyView(message: message, measure: 680).padding(.leading, -24).padding(.trailing, -18)
+            } else if let text, !text.isEmpty, text != NotificationText.summary(message) {
                 Text(text).font(.system(size: 12)).foregroundStyle(pageSecondary).lineLimit(12).textSelection(.enabled)
             }
             HStack(spacing: 8) {
@@ -236,6 +242,7 @@ private struct NotificationExpansion: View {
                     Button("Open \(link.host() ?? "Link")") { NSWorkspace.shared.open(link) }.buttonStyle(SettingsPrimaryButtonStyle())
                 }
                 Button("Archive") { Task { await AppServices.shared.actions.archive([message], wholeThread: false) } }.controlSize(.small)
+                Button(showsFull ? "Hide Full Message" : "Show Full Message") { showsFull.toggle() }.controlSize(.small)
             }
         }
         .padding(.leading, 34).padding(.trailing, 18).padding(.vertical, 10)
@@ -284,8 +291,10 @@ enum NotificationText {
     }
 
     static func plain(_ body: MailBody?, fallback: String) -> String {
-        let text = body?.text ?? body?.html.map(stripTags) ?? fallback
-        return text.components(separatedBy: "\n").filter { !$0.trimmingCharacters(in: .whitespaces).hasPrefix("http") }.joined(separator: "\n")
+        let text = body?.text ?? body?.html.map(BodyText.plain(fromHTML:)) ?? fallback
+        // Text parts carry the sender's indentation and whitespace-only spacer lines; trim each
+        // line so blank runs collapse and nothing sits indented.
+        return text.components(separatedBy: "\n").map { $0.trimmingCharacters(in: .whitespaces) }.filter { !$0.hasPrefix("http") }.joined(separator: "\n")
             .replacingOccurrences(of: #"\n{3,}"#, with: "\n\n", options: .regularExpression)
             .components(separatedBy: "\n—\nReply to this email directly").first?.trimmingCharacters(in: .whitespacesAndNewlines) ?? fallback
     }
@@ -304,14 +313,6 @@ enum NotificationText {
             if let url = URL(string: string) { return url }
         }
         return nil
-    }
-
-    static func stripTags(_ html: String) -> String {
-        html.replacingOccurrences(of: #"<(style|script)[\s\S]*?</\1>"#, with: "", options: [.regularExpression, .caseInsensitive])
-            .replacingOccurrences(of: #"<br\s*/?>|</p>|</div>|</tr>"#, with: "\n", options: [.regularExpression, .caseInsensitive])
-            .replacingOccurrences(of: #"<[^>]+>"#, with: "", options: .regularExpression)
-            .replacingOccurrences(of: "&nbsp;", with: " ").replacingOccurrences(of: "&amp;", with: "&")
-            .replacingOccurrences(of: "&lt;", with: "<").replacingOccurrences(of: "&gt;", with: ">")
     }
 }
 
