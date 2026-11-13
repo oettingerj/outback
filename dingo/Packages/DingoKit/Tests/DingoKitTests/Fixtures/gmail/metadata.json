@@ -1,0 +1,32 @@
+{
+  "id": "18c500000000dddd",
+  "threadId": "18c500000000dddd",
+  "labelIds": [
+    "INBOX"
+  ],
+  "snippet": "Quick question about Friday",
+  "historyId": "9876900",
+  "internalDate": "1731326400000",
+  "sizeEstimate": 4100,
+  "payload": {
+    "mimeType": "multipart/alternative",
+    "headers": [
+      {
+        "name": "From",
+        "value": "Alan Turing <alan@example.org>"
+      },
+      {
+        "name": "To",
+        "value": "me@example.com, undisclosed-recipients:;"
+      },
+      {
+        "name": "Subject",
+        "value": "Quick question"
+      },
+      {
+        "name": "Content-Type",
+        "value": "multipart/alternative; boundary=\"x\""
+      }
+    ]
+  }
+}

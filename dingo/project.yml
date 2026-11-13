@@ -1,0 +1,94 @@
+name: Dingo
+options:
+  bundleIdPrefix: com.joshoettinger
+  deploymentTarget:
+    macOS: "26.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    MACOSX_DEPLOYMENT_TARGET: "26.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    SWIFT_DEFAULT_ACTOR_ISOLATION: MainActor
+packages:
+  DingoKit:
+    path: Packages/DingoKit
+  Eucalyptus:
+    path: ../eucalyptus
+targets:
+  Dingo:
+    type: application
+    platform: macOS
+    sources:
+      - path: App
+        excludes:
+          - "*.xcconfig"
+    configFiles:
+      Debug: App/Dingo.xcconfig
+      Release: App/Dingo.xcconfig
+    dependencies:
+      - package: DingoKit
+      - package: Eucalyptus
+    info:
+      path: App/Info.plist
+      properties:
+        CFBundleName: $(DINGO_DISPLAY_NAME)
+        CFBundleDisplayName: $(DINGO_DISPLAY_NAME)
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        LSApplicationCategoryType: public.app-category.productivity
+        LSMinimumSystemVersion: "26.0"
+        NSPrincipalClass: NSApplication
+        NSSupportsAutomaticTermination: false
+        NSSupportsSuddenTermination: false
+        # Google OAuth Desktop client, from App/Secrets.xcconfig (gitignored; see App/Secrets.example.xcconfig).
+        GoogleClientID: $(GOOGLE_CLIENT_ID)
+        GoogleClientSecret: $(GOOGLE_CLIENT_SECRET)
+        CFBundleURLTypes:
+          - CFBundleURLName: Email address
+            CFBundleURLSchemes: [mailto]
+    entitlements:
+      path: App/Dingo.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+        com.apple.security.network.client: true
+        # Google's sign-in redirects to a listener on 127.0.0.1 for the duration of sign-in.
+        com.apple.security.network.server: true
+        com.apple.security.files.user-selected.read-write: true
+        com.apple.security.files.downloads.read-write: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.joshoettinger.dingo
+        PRODUCT_NAME: Dingo
+        MARKETING_VERSION: "0.1.0"
+        CURRENT_PROJECT_VERSION: "1"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        # Dingo ochre for every native control: carets, links, focus rings, selection.
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        # A stable signature: macOS keeps Dingo's Keychain items and permissions across rebuilds.
+        CODE_SIGN_IDENTITY: "Apple Development"
+        DEVELOPMENT_TEAM: B9XC6ZD8WD
+        CODE_SIGN_STYLE: Manual
+        ENABLE_HARDENED_RUNTIME: YES
+        GENERATE_INFOPLIST_FILE: NO
+        COMBINE_HIDPI_IMAGES: YES
+        DINGO_DISPLAY_NAME: Dingo
+      configs:
+        Release:
+          CODE_SIGN_IDENTITY: "Developer ID Application"
+          DEVELOPMENT_TEAM: CXWKXPU9U5
+          CODE_SIGN_INJECT_BASE_ENTITLEMENTS: NO
+        # Debug builds get their own bundle ID and name, so their database, defaults, and Keychain
+        # items stay apart from the installed Release app.
+        Debug:
+          PRODUCT_BUNDLE_IDENTIFIER: com.joshoettinger.dingo.dev
+          DINGO_DISPLAY_NAME: Dingo Dev
+schemes:
+  Dingo:
+    build:
+      targets:
+        Dingo: all
+    run:
+      config: Debug
+    test:
+      config: Debug

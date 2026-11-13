@@ -1,0 +1,199 @@
+{
+  "id": "18c300000000bbbb",
+  "threadId": "18c300000000bbbb",
+  "labelIds": [
+    "UNREAD",
+    "IMPORTANT",
+    "INBOX"
+  ],
+  "snippet": "Design review Friday Nov 15 · 9:00 – 9:30am",
+  "historyId": "9876700",
+  "internalDate": "1731319200000",
+  "payload": {
+    "partId": "",
+    "mimeType": "multipart/mixed",
+    "filename": "",
+    "headers": [
+      {
+        "name": "From",
+        "value": "Grace Hopper <calendar-notification@google.com>"
+      },
+      {
+        "name": "Reply-To",
+        "value": "Grace Hopper <grace@example.org>"
+      },
+      {
+        "name": "Sender",
+        "value": "Google Calendar <calendar-notification@google.com>"
+      },
+      {
+        "name": "To",
+        "value": "me@example.com"
+      },
+      {
+        "name": "Subject",
+        "value": "Invitation: Design review @ Fri Nov 15, 2024 9am - 9:30am (PST) (me@example.com)"
+      },
+      {
+        "name": "Date",
+        "value": "Mon, 11 Nov 2024 10:00:00 +0000"
+      },
+      {
+        "name": "Message-ID",
+        "value": "<calendar-abc123@google.com>"
+      },
+      {
+        "name": "Content-Type",
+        "value": "multipart/mixed; boundary=\"000000000000mixed\""
+      }
+    ],
+    "body": {
+      "size": 0
+    },
+    "parts": [
+      {
+        "partId": "0",
+        "mimeType": "multipart/related",
+        "filename": "",
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "multipart/related; boundary=\"000000000000related\""
+          }
+        ],
+        "body": {
+          "size": 0
+        },
+        "parts": [
+          {
+            "partId": "0.0",
+            "mimeType": "multipart/alternative",
+            "filename": "",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "multipart/alternative; boundary=\"000000000000alt\""
+              }
+            ],
+            "body": {
+              "size": 0
+            },
+            "parts": [
+              {
+                "partId": "0.0.0",
+                "mimeType": "text/plain",
+                "filename": "",
+                "headers": [
+                  {
+                    "name": "Content-Type",
+                    "value": "text/plain; charset=\"utf-8\""
+                  },
+                  {
+                    "name": "Content-Transfer-Encoding",
+                    "value": "quoted-printable"
+                  }
+                ],
+                "body": {
+                  "size": 47,
+                  "data": "RGVzaWduIHJldmlldwpGcmlkYXkgTm92IDE1IMK3IDk6MDAg4oCTIDk6MzBhbQo="
+                }
+              },
+              {
+                "partId": "0.0.1",
+                "mimeType": "text/html",
+                "filename": "",
+                "headers": [
+                  {
+                    "name": "Content-Type",
+                    "value": "text/html; charset=\"utf-8\""
+                  },
+                  {
+                    "name": "Content-Transfer-Encoding",
+                    "value": "quoted-printable"
+                  }
+                ],
+                "body": {
+                  "size": 116,
+                  "data": "PGRpdj48aW1nIHNyYz0iY2lkOmxvZ29AY2FsZW5kYXIuZXhhbXBsZSIgYWx0PSIiPjxoMj5EZXNpZ24gcmV2aWV3PC9oMj48cD5GcmlkYXkgTm92IDE1IMK3IDk6MDAg4oCTIDk6MzBhbTwvcD48L2Rpdj4="
+                }
+              },
+              {
+                "partId": "0.0.2",
+                "mimeType": "text/calendar",
+                "filename": "",
+                "headers": [
+                  {
+                    "name": "Content-Type",
+                    "value": "text/calendar; charset=\"UTF-8\"; method=REQUEST"
+                  },
+                  {
+                    "name": "Content-Transfer-Encoding",
+                    "value": "7bit"
+                  }
+                ],
+                "body": {
+                  "size": 407,
+                  "data": "QkVHSU46VkNBTEVOREFSDQpQUk9ESUQ6LS8vR29vZ2xlIEluYy8vR29vZ2xlIENhbGVuZGFyIDcwLjkwNTQvL0VODQpWRVJTSU9OOjIuMA0KTUVUSE9EOlJFUVVFU1QNCkJFR0lOOlZFVkVOVA0KRFRTVEFSVDoyMDI0MTExNVQxNzAwMDBaDQpEVEVORDoyMDI0MTExNVQxNzMwMDBaDQpPUkdBTklaRVI7Q049R3JhY2UgSG9wcGVyOm1haWx0bzpncmFjZUBleGFtcGxlLm9yZw0KQVRURU5ERUU7Q1VUWVBFPUlORElWSURVQUw7Uk9MRT1SRVEtUEFSVElDSVBBTlQ7UEFSVFNUQVQ9TkVFRFMtQUNUSU9OO1JTVlA9VFJVRTtDTj1tZUBleGFtcGxlLmNvbTptYWlsdG86bWVAZXhhbXBsZS5jb20NClVJRDphYmMxMjNAZ29vZ2xlLmNvbQ0KU1VNTUFSWTpEZXNpZ24gcmV2aWV3DQpFTkQ6VkVWRU5UDQpFTkQ6VkNBTEVOREFSDQo="
+                }
+              }
+            ]
+          },
+          {
+            "partId": "0.1",
+            "mimeType": "image/png",
+            "filename": "logo.png",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "image/png; name=\"logo.png\""
+              },
+              {
+                "name": "Content-Disposition",
+                "value": "inline; filename=\"logo.png\""
+              },
+              {
+                "name": "Content-Transfer-Encoding",
+                "value": "base64"
+              },
+              {
+                "name": "Content-ID",
+                "value": "<logo@calendar.example>"
+              },
+              {
+                "name": "X-Attachment-Id",
+                "value": "logo@calendar.example"
+              }
+            ],
+            "body": {
+              "size": 16,
+              "data": "iVBORw0KGgoAAAANSUhEUg=="
+            }
+          }
+        ]
+      },
+      {
+        "partId": "1",
+        "mimeType": "application/ics",
+        "filename": "invite.ics",
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/ics; name=\"invite.ics\""
+          },
+          {
+            "name": "Content-Disposition",
+            "value": "attachment; filename=\"invite.ics\""
+          },
+          {
+            "name": "Content-Transfer-Encoding",
+            "value": "base64"
+          }
+        ],
+        "body": {
+          "attachmentId": "ANGjdJ_ics_attachment",
+          "size": 407
+        }
+      }
+    ]
+  }
+}

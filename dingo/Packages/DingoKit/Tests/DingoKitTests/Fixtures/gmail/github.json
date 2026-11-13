@@ -1,0 +1,126 @@
+{
+  "id": "18c200000000aaaa",
+  "threadId": "18c1ffffffff0000",
+  "labelIds": [
+    "UNREAD",
+    "CATEGORY_UPDATES",
+    "INBOX"
+  ],
+  "snippet": "@ada requested your review on: octo/widgets#42 Add retry to the uploader.",
+  "historyId": "9876600",
+  "internalDate": "1731315600000",
+  "payload": {
+    "partId": "",
+    "mimeType": "multipart/alternative",
+    "filename": "",
+    "headers": [
+      {
+        "name": "From",
+        "value": "Ada Lovelace <notifications@github.com>"
+      },
+      {
+        "name": "Reply-To",
+        "value": "octo/widgets <reply+ABC123@reply.github.com>"
+      },
+      {
+        "name": "To",
+        "value": "octo/widgets <widgets@noreply.github.com>"
+      },
+      {
+        "name": "Cc",
+        "value": "Review requested <review_requested@noreply.github.com>"
+      },
+      {
+        "name": "Subject",
+        "value": "[octo/widgets] Add retry to the uploader (PR #42)"
+      },
+      {
+        "name": "Date",
+        "value": "Mon, 11 Nov 2024 09:00:00 +0000"
+      },
+      {
+        "name": "Message-ID",
+        "value": "<octo/widgets/pull/42@github.com>"
+      },
+      {
+        "name": "In-Reply-To",
+        "value": "<octo/widgets/pull/42/c1@github.com>"
+      },
+      {
+        "name": "References",
+        "value": "<octo/widgets/pull/42@github.com>\r\n <octo/widgets/pull/42/c1@github.com>"
+      },
+      {
+        "name": "List-ID",
+        "value": "octo/widgets <widgets.octo.github.com>"
+      },
+      {
+        "name": "List-Unsubscribe",
+        "value": "<mailto:unsub+ABC@reply.github.com>, <https://github.com/notifications/unsubscribe/ABC>"
+      },
+      {
+        "name": "X-GitHub-Reason",
+        "value": "review_requested"
+      },
+      {
+        "name": "X-GitHub-Sender",
+        "value": "ada"
+      },
+      {
+        "name": "X-GitHub-Recipient",
+        "value": "me"
+      },
+      {
+        "name": "Precedence",
+        "value": "list"
+      },
+      {
+        "name": "Content-Type",
+        "value": "multipart/alternative; boundary=\"--==_mimepart_1\"; charset=UTF-8"
+      }
+    ],
+    "body": {
+      "size": 0
+    },
+    "parts": [
+      {
+        "partId": "0",
+        "mimeType": "text/plain",
+        "filename": "",
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "text/plain; charset=UTF-8"
+          },
+          {
+            "name": "Content-Transfer-Encoding",
+            "value": "7bit"
+          }
+        ],
+        "body": {
+          "size": 169,
+          "data": "QGFkYSByZXF1ZXN0ZWQgeW91ciByZXZpZXcgb246IG9jdG8vd2lkZ2V0cyM0MiBBZGQgcmV0cnkgdG8gdGhlIHVwbG9hZGVyLgoKLS0KUmVwbHkgdG8gdGhpcyBlbWFpbCBkaXJlY3RseSBvciB2aWV3IGl0IG9uIEdpdEh1YjoKaHR0cHM6Ly9naXRodWIuY29tL29jdG8vd2lkZ2V0cy9wdWxsLzQyCg=="
+        }
+      },
+      {
+        "partId": "1",
+        "mimeType": "text/html",
+        "filename": "",
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "text/html; charset=UTF-8"
+          },
+          {
+            "name": "Content-Transfer-Encoding",
+            "value": "7bit"
+          }
+        ],
+        "body": {
+          "size": 141,
+          "data": "PHA-PGI-QGFkYTwvYj4gcmVxdWVzdGVkIHlvdXIgcmV2aWV3IG9uOiA8YSBocmVmPSJodHRwczovL2dpdGh1Yi5jb20vb2N0by93aWRnZXRzL3B1bGwvNDIiPm9jdG8vd2lkZ2V0cyM0MjwvYT4gQWRkIHJldHJ5IHRvIHRoZSB1cGxvYWRlci48L3A-"
+        }
+      }
+    ]
+  }
+}

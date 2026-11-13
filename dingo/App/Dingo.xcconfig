@@ -1,0 +1,5 @@
+// Google OAuth credentials live in Secrets.xcconfig, which is gitignored.
+// Copy Secrets.example.xcconfig to Secrets.xcconfig and fill it in.
+GOOGLE_CLIENT_ID =
+GOOGLE_CLIENT_SECRET =
+#include? "Secrets.xcconfig"
