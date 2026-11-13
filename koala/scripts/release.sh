@@ -1,5 +1,5 @@
 #!/bin/zsh
-# Builds a signed, notarized Koala-<version>.dmg, tags v<version>, and attaches the dmg to a
+# Builds a signed, notarized Koala-<version>.dmg, tags koala-v<version>, and attaches the dmg to a
 # draft GitHub release. Review the draft on GitHub, then publish it.
 #
 # Usage: scripts/release.sh 0.2.0
@@ -18,11 +18,10 @@ fail() { echo "$*" >&2; exit 1 }
 
 version=${1:-}
 [[ $version =~ '^[0-9]+\.[0-9]+\.[0-9]+$' ]] || fail "Usage: scripts/release.sh <major.minor.patch>"
-tag="v$version"
+tag="${app_name:l}-v$version"
 
 [[ $(git branch --show-current) == main ]] || fail "Release from main."
-[[ -z $(git status --porcelain) ]] || fail "$app_name has uncommitted changes."
-[[ -z $(git -C ../eucalyptus status --porcelain) ]] || fail "../eucalyptus has uncommitted changes."
+[[ -z $(git status --porcelain -- . ../eucalyptus) ]] || fail "$app_name or eucalyptus has uncommitted changes."
 git fetch --quiet --tags origin
 git rev-parse -q --verify "refs/tags/$tag" >/dev/null && fail "Tag $tag already exists."
 
@@ -60,7 +59,12 @@ fi
 xcrun stapler staple -q $dmg
 spctl --assess --type open --context context:primary-signature --verbose $dmg
 
+# Generated notes start at this app's previous release, not the other app's.
+notes_args=()
+if previous=$(git describe --tags --abbrev=0 --match "${app_name:l}-v*" HEAD 2>/dev/null); then
+  notes_args=(--notes-start-tag $previous)
+fi
 git tag -a $tag -m "$app_name $version"
 git push --quiet origin $tag
 gh release create $tag $dmg --draft --title "$app_name $version" --generate-notes \
-  --notes "Requires macOS 26 or later. Built with eucalyptus $(git -C ../eucalyptus rev-parse --short HEAD)."
+  $notes_args --notes "Requires macOS 26 or later."

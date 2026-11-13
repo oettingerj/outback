@@ -7,7 +7,7 @@ The shared ground under Koala and Dingo: one design system and the AppKit plumbi
 - Controls and chrome: `IconButton`, `PageSearchField`, `PageColumn`, `PageFilter`, `PreviewFactGrid`, `SettingsRule`, `PrimaryButtonStyle`, popovers and dropdown panels.
 - Plumbing: `MenuShortcut` and `MenuShortcuts` (rebindable menu shortcuts), `ObservationLoop`, `AppSupport`, `Perf`, `closureMenuItem`, `Pasteboard`, `FaviconContrast`, small scrollers.
 
-Apps depend on it by path (`../eucalyptus`).
+Koala and Dingo live beside it in this repo and depend on it by path (`../eucalyptus`).
 
 ```sh
 swift build && swift test

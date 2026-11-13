@@ -4,7 +4,7 @@ A native Mac mail client for Gmail that sorts mail into buckets. The Inbox holds
 
 ## Build
 
-Requirements: macOS 26, Xcode 27, and XcodeGen (`brew install xcodegen`). Eucalyptus must be checked out at `../eucalyptus`.
+Requirements: macOS 26, Xcode 27, and XcodeGen (`brew install xcodegen`). Eucalyptus lives beside Dingo in this repo, at `../eucalyptus`.
 
 1. Create a Google OAuth client:
    - In Google Cloud Console, enable the Gmail API.
