@@ -112,7 +112,7 @@ extension MailStore {
     // MARK: - Threads
 
     /// Threads with a message in `bucket`, newest first. The inbox shows only threads still in INBOX;
-    /// sorted buckets show everything in them, since bucketing archives.
+    /// sorted buckets show their filed mail, in Gmail's Inbox or not.
     public func observeThreads(bucket: Bucket, accountIDs: Set<String>? = nil, limit: Int = 100) -> AsyncValueObservation<[ThreadSummary]> {
         observe { db in try Self.threads(db, bucket: bucket, accountIDs: accountIDs, limit: limit) }
     }

@@ -22,11 +22,11 @@ enum SampleMail {
         let messages = people() + newsletters() + notifications() + receipts() + invites()
         let classifier = (try? await store.classifier(accountID: account)) ?? Classifier(rules: SenderRuleLookup([]))
         await save(messages, to: store, classifier: classifier)
-        // As if mirrored: sorted mail carries its label and has left the Inbox.
+        // As if mirrored: sorted mail carries its label and stays in the Inbox.
         let saved = (try? await store.messages(accountID: account, ids: messages.map(\.id))) ?? []
         var changes: [String: (add: [String], remove: [String])] = [:]
         for message in saved where message.bucket != .inbox {
-            changes[message.id] = (add: ["Label_\(message.bucket.rawValue)"], remove: ["INBOX"])
+            changes[message.id] = (add: ["Label_\(message.bucket.rawValue)"], remove: [])
         }
         _ = try? await store.setLabels(accountID: account, changes: changes)
     }

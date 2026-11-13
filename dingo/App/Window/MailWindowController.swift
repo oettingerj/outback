@@ -59,7 +59,7 @@ final class MailWindowController: NSWindowController, NSWindowDelegate {
             button("square.and.pencil", "New Message", #selector(AppDelegate.newMessage(_:))),
         ])
         root.detailHeader.set(title: "")
-        // Every bucket ends the same way under the hand: archive, move, more. Only the extras
+        // Every bucket ends the same way under the hand: archive, delete, move, more. Only the extras
         // in front of them change with the kind of mail.
         var actions: [NSView] = []
         let hasTarget = !model.actionTarget.isEmpty
@@ -74,7 +74,8 @@ final class MailWindowController: NSWindowController, NSWindowDelegate {
         default:
             break
         }
-        actions += [button("archivebox", "Archive", #selector(AppDelegate.archive(_:))), moveButton(), moreButton()]
+        actions += [button("archivebox", "Archive", #selector(AppDelegate.archive(_:))),
+                    button("trash", "Delete", #selector(AppDelegate.trash(_:))), moveButton(), moreButton()]
         for case let control as NSControl in actions { control.isEnabled = hasTarget }
         root.detailHeader.set(buttons: actions)
     }

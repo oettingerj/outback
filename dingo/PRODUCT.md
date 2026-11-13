@@ -35,7 +35,7 @@ Not another inbox with tabs or labels: the buckets are destinations with their o
 
 v1 scope:
 - Gmail only, several accounts, unified Inbox and buckets, account filter, per-account send-as.
-- Buckets: Inbox (people), Newsletters, Notifications, Receipts, Invites. Mirrored as Gmail labels `Dingo/<Bucket>`; bucketed threads leave INBOX.
+- Buckets: Inbox (people), Newsletters, Notifications, Receipts, Invites. Mirrored as Gmail labels `Dingo/<Bucket>`; bucketed threads keep INBOX; nothing skips Gmail's Inbox.
 - Automatic sorting by headers and content; moving mail to another bucket writes a sender rule and offers to move that sender's existing mail.
 - Read, archive, mark read/unread, star, trash, move to bucket; reply, reply all, forward, new message with attachments; drafts saved to Gmail.
 - Newsletters: publications, issues, a reading layout, one-click unsubscribe (RFC 8058) or mailto.

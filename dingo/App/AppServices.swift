@@ -96,7 +96,7 @@ final class AppServices {
         }
         let tokens = AccessTokenSource(refreshToken: refreshToken, oauth: oauth)
         let sync = MailSync(account: email, client: GmailClient(account: email, tokens: tokens), store: store,
-                            windowDays: Preferences.syncWindowDays, archivesSortedMail: Preferences.archivesSortedMail)
+                            windowDays: Preferences.syncWindowDays)
         syncs[email] = sync
         return sync
     }
@@ -154,7 +154,7 @@ final class AppServices {
         if email == SampleMail.account { return }
         #endif
         guard let sync = sync(for: email) else { return }
-        await sync.configure(windowDays: Preferences.syncWindowDays, archivesSortedMail: Preferences.archivesSortedMail)
+        await sync.configure(windowDays: Preferences.syncWindowDays)
         do {
             let report = try await sync.sync()
             syncErrors[email] = nil

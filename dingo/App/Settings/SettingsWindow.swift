@@ -41,12 +41,6 @@ enum Preferences {
         set { UserDefaults.standard.set(newValue, forKey: "SyncWindowDays") }
     }
 
-    /// Whether sorting takes bucketed threads out of Gmail's Inbox (the label is added either way).
-    static var archivesSortedMail: Bool {
-        get { UserDefaults.standard.object(forKey: "ArchivesSortedMail") as? Bool ?? true }
-        set { UserDefaults.standard.set(newValue, forKey: "ArchivesSortedMail") }
-    }
-
     /// Load remote images in every message, not only from trusted senders.
     static var loadsRemoteImages: Bool {
         get { UserDefaults.standard.bool(forKey: "LoadsRemoteImages") }
@@ -68,7 +62,6 @@ private struct SettingsPage: View {
     @State private var shortcuts = MenuShortcuts.commands()
     @State private var recording = ShortcutRecording()
     @State private var markRead = Preferences.markReadDelay != nil
-    @State private var archives = Preferences.archivesSortedMail
     @State private var notifies = Preferences.notifiesNewMail
     @State private var loadsRemote = Preferences.loadsRemoteImages
     @State private var syncDays = Preferences.syncWindowDays
@@ -104,9 +97,6 @@ private struct SettingsPage: View {
                         if let accountError { Text(accountError).font(.system(size: 11)).foregroundStyle(settingsFail).padding(.vertical, 6) }
                     }
                     section("Buckets", "Dingo sorts mail by its headers and content. Moving mail to another bucket can teach it a sender rule.") {
-                        row("Take sorted mail out of Gmail’s Inbox", "Sorted threads keep their Dingo label in Gmail either way.") {
-                            Toggle("", isOn: $archives).settingsSwitch().onChange(of: archives) { Preferences.archivesSortedMail = archives }
-                        }
                         if rules.isEmpty {
                             row("Sender rules", "None yet. Choose Message › Always Put Mail from Sender In to add one.") { EmptyView() }
                         }

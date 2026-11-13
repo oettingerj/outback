@@ -461,7 +461,7 @@ A group heading inside a list (publication, GitHub / Services, year, day, comman
 Two or three view modes (By Publication / Latest): a field-well track, 6pt, 2pt padding, segments 24pt tall, 5pt, 2pt apart, equal width, 12pt medium. The chosen segment sits on row-selected fill in primary text; the others are secondary. Neutral on purpose.
 
 ### Column Header
-40pt, one for each column, so all three hairlines align. Title in 13pt semibold primary at a 16pt inset, count 6pt after it on the title's baseline in 11pt mono tertiary ("1 unread", "4 in November"); 28pt icon buttons trailing, 2pt apart, 8pt from the edge. The middle header carries Search Mail and New Message; the detail header carries Reply, Reply All, Forward (Inbox and mailboxes only), an 8pt gap, then Archive, Move to Bucket, and More in every bucket. Its background moves the window.
+40pt, one for each column, so all three hairlines align. Title in 13pt semibold primary at a 16pt inset, count 6pt after it on the title's baseline in 11pt mono tertiary ("1 unread", "4 in November"); 28pt icon buttons trailing, 2pt apart, 8pt from the edge. The middle header carries Search Mail and New Message; the detail header carries Reply, Reply All, Forward (Inbox and mailboxes only), an 8pt gap, then Archive, Delete, Move to Bucket, and More in every bucket. Its background moves the window.
 
 ### Notice Bar
 The inline strip at the top of the detail pane after a move or an error: notice fill, at least 40pt, 18pt gutter, a hairline below; 12pt primary text, small bordered buttons, a 10pt semibold tertiary dismiss. After a move it asks "Always put mail from Sender in Bucket?" with Always as the filled primary button, then Just This and Undo. An error leads with an 11pt fail-red triangle. It slides from the top edge with a fade.
@@ -514,7 +514,7 @@ A window, not a page in a tab: the 640pt page column on chrome surface; 20pt sem
 ### Don't:
 - **Don't** fill a resting surface, a selected row, or a view-mode segment with ochre.
 - **Don't** set small text in light-appearance ochre fill, pass, or pending; their words stay in text tokens.
-- **Don't** give a bucket its own controls in the header; only the extras in front of Archive, Move, More change.
+- **Don't** give a bucket its own controls in the header; only the extras in front of Archive, Delete, Move, More change.
 - **Don't** add gradients, glass, blur, translucency, or colored side borders to Dingo-drawn surfaces.
 - **Don't** cast shadows from columns, rows, bars, or the document panel; shadow is for floating panels only.
 - **Don't** set names, titles, or state words in 0xProto, or color a state word.

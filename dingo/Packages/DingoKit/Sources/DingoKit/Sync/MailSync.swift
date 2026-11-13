@@ -13,8 +13,6 @@ public actor MailSync {
     let store: MailStore
     /// How far back a first sync reaches.
     public var windowDays: Int
-    /// Whether sorted mail leaves Gmail's Inbox; the bucket label is applied either way.
-    public var archivesSortedMail: Bool
 
     /// Label name to ID for the bucket labels, created on first sync.
     private var bucketLabels: [Bucket: String] = [:]
@@ -30,17 +28,15 @@ public actor MailSync {
         public var wasFullSync = false
     }
 
-    public init(account: String, client: GmailClient, store: MailStore, windowDays: Int = 90, archivesSortedMail: Bool = true) {
+    public init(account: String, client: GmailClient, store: MailStore, windowDays: Int = 90) {
         self.account = account
         self.client = client
         self.store = store
         self.windowDays = windowDays
-        self.archivesSortedMail = archivesSortedMail
     }
 
-    public func configure(windowDays: Int, archivesSortedMail: Bool) {
+    public func configure(windowDays: Int) {
         self.windowDays = windowDays
-        self.archivesSortedMail = archivesSortedMail
     }
 
     /// Runs one sync, joining one already in progress.
@@ -185,8 +181,9 @@ public actor MailSync {
         return try await store.messages(accountID: account, ids: messages.map(\.id))
     }
 
-    /// Gives sorted messages their bucket label in Gmail and takes them out of the Inbox; takes the
-    /// label off anything Dingo now keeps in the Inbox. Sent mail and drafts are never touched.
+    /// Gives sorted messages their bucket label in Gmail; takes the label off anything Dingo now keeps
+    /// in the Inbox. Sorting never removes INBOX, so nothing skips Gmail's Inbox. Sent mail and
+    /// drafts are never touched.
     public func mirror(_ messages: [MailMessage]) async throws {
         var groups: [[String]: (add: [String], remove: [String], ids: [String])] = [:]
         let allBucketLabels = Set(bucketLabels.values)
@@ -199,7 +196,6 @@ public actor MailSync {
             } else if let label = bucketLabels[message.bucket] {
                 if !labels.contains(label) { add.append(label) }
                 remove = Array(labels.intersection(allBucketLabels).subtracting([label]))
-                if archivesSortedMail, labels.contains("INBOX"), !labels.contains("SENT") { remove.append("INBOX") }
             }
             guard !add.isEmpty || !remove.isEmpty else { continue }
             let key = add.sorted() + ["|"] + remove.sorted()

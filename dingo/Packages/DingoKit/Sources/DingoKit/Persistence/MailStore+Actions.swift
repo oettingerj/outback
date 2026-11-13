@@ -64,8 +64,8 @@ extension MailStore {
     }
 
     /// Moves messages to a bucket with the labels Gmail will end up with: a sorted bucket takes its
-    /// `Dingo/*` label and leaves INBOX; the inbox takes INBOX back. When the account has no such
-    /// label yet, INBOX stays so the message remains filed until sync creates it. For a
+    /// `Dingo/*` label and INBOX stays as it was, so nothing skips Gmail's Inbox; the inbox takes
+    /// INBOX back. With no `Dingo/*` label yet, INBOX keeps the message filed until sync creates it. For a
     /// thread, the user's own sent mail and drafts stay where they are, as the classifier would put
     /// them. Moving into Receipts derives receipt rows from stored bodies.
     @discardableResult
@@ -81,7 +81,6 @@ extension MailStore {
             for var message in messages {
                 var labels = message.labelIDs.filter { !dingoLabels.values.contains($0) }
                 if let labelName = bucket.labelName, let id = dingoLabels[labelName] {
-                    Self.toggle(&labels, "INBOX", on: false)
                     labels.append(id)
                 } else if bucket.labelName == nil {
                     Self.toggle(&labels, "INBOX", on: true)

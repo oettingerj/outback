@@ -192,6 +192,8 @@ private struct NotificationLog: View {
                         .disabled(!model.notifications.contains(where: \.isUnread))
                     Button("Archive Read") { Task { await AppServices.shared.actions.archive(model.notifications.filter { !$0.isUnread }, wholeThread: false) } }
                         .disabled(!model.notifications.contains { !$0.isUnread })
+                    Button("Delete Read") { Task { await AppServices.shared.actions.trash(model.notifications.filter { !$0.isUnread }, wholeThread: false) } }
+                        .disabled(!model.notifications.contains { !$0.isUnread })
                 }
                 .controlSize(.small)
                 .padding(.horizontal, 18).padding(.vertical, 10)
@@ -242,6 +244,7 @@ private struct NotificationExpansion: View {
                     Button("Open \(link.host() ?? "Link")") { NSWorkspace.shared.open(link) }.buttonStyle(SettingsPrimaryButtonStyle())
                 }
                 Button("Archive") { Task { await AppServices.shared.actions.archive([message], wholeThread: false) } }.controlSize(.small)
+                Button("Delete") { Task { await AppServices.shared.actions.trash([message], wholeThread: false) } }.controlSize(.small)
                 Button(showsFull ? "Hide Full Message" : "Show Full Message") { showsFull.toggle() }.controlSize(.small)
             }
         }
