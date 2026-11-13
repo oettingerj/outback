@@ -1,0 +1,269 @@
+import AppKit
+import BrowserKit
+import Eucalyptus
+import SwiftUI
+
+/// ⌘K: a floating bar over the page that opens URLs, searches, switches tabs, and runs any
+/// menu command. Built once per window and kept hidden so opening it costs one order-front.
+@MainActor
+final class CommandBar: NSObject, NSWindowDelegate, NSTextFieldDelegate {
+    let model: SuggestionModel
+    private let panel: CommandBarPanel
+    private let container = CommandBarContainer()
+    private let field = NSTextField()
+    private let completer = InlineCompleter()
+    private let searchIcon = NSImageView()
+    private let divider = NSView()
+    private let list: NSHostingView<SuggestionList>
+    private weak var parent: NSWindow?
+    private var heightObservation: ObservationLoop?
+
+    var onActivate: ((Suggestion, _ newTab: Bool) -> Void)?
+    var onCancel: (() -> Void)?
+    private static let defaultPlaceholder = "Search, open a URL, or run a command"
+
+    /// Wide enough for the list and its preview pane; narrow windows drop the pane.
+    static let width: CGFloat = 820
+    private static let fieldHeight: CGFloat = 52
+    private var showsPreview = false
+
+    init(engine: SuggestionEngine) {
+        model = SuggestionModel(engine: engine)
+        panel = CommandBarPanel(contentRect: NSRect(x: 0, y: 0, width: Self.width, height: Self.fieldHeight),
+                                styleMask: [.borderless], backing: .buffered, defer: false)
+        list = NSHostingView(rootView: SuggestionList(model: model, onActivate: { _ in }))
+        super.init()
+        // Picking a page from the bar opens it in a new tab (see BrowserWindowController).
+        list.rootView = SuggestionList(model: model, opensInNewTab: true) { [weak self] row in self?.activate(row, newTab: false) }
+        panel.isOpaque = false
+        panel.backgroundColor = .clear
+        panel.hasShadow = true
+        panel.isReleasedWhenClosed = false
+        panel.animationBehavior = .none
+        panel.delegate = self
+
+        field.isBordered = false
+        field.drawsBackground = false
+        field.focusRingType = .none
+        field.font = .systemFont(ofSize: 16)
+        field.textColor = Theme.textPrimary
+        field.cell?.isScrollable = true
+        field.cell?.wraps = false
+        field.placeholderAttributedString = NSAttributedString(string: "Search, open a URL, or run a command", attributes: [
+            .font: NSFont.systemFont(ofSize: 16), .foregroundColor: Theme.textTertiary,
+        ])
+        field.delegate = self
+        field.setAccessibilityLabel("Command bar")
+        searchIcon.image = NSImage(systemSymbolName: "magnifyingglass", accessibilityDescription: nil)?
+            .withSymbolConfiguration(.init(pointSize: 14, weight: .medium))
+        searchIcon.contentTintColor = Theme.textTertiary
+        divider.wantsLayer = true
+
+        [searchIcon, field, divider, list].forEach(container.addSubview)
+        container.layoutHandler = { [weak self] in self?.layoutContents() }
+        panel.contentView = container
+        heightObservation = ObservationLoop { [weak self] in self?.resize() }
+        model.onLeaveCompletion = { [weak self] in
+            guard let self else { return }
+            completer.clear(in: field)
+        }
+    }
+
+    var isVisible: Bool { panel.isVisible }
+
+    /// Distance from the window's top edge to the top of the page, so the bar floats just
+    /// below the chrome rather than over it.
+    private var chromeHeight: CGFloat = 104
+
+    func show(over window: NSWindow, chromeHeight: CGFloat, placeholder: String = CommandBar.defaultPlaceholder) {
+        parent = window
+        self.chromeHeight = chromeHeight
+        field.placeholderAttributedString = NSAttributedString(string: placeholder, attributes: [
+            .font: NSFont.systemFont(ofSize: 16), .foregroundColor: Theme.textTertiary,
+        ])
+        model.reset()
+        model.update(query: "")
+        completer.reset()
+        field.stringValue = ""
+        if panel.parent !== window {
+            panel.parent?.removeChildWindow(panel)
+            window.addChildWindow(panel, ordered: .above)
+        }
+        Perf.measure("commandbar.open") {
+            resize()
+            panel.makeKeyAndOrderFront(nil)
+            panel.makeFirstResponder(field)
+        }
+    }
+
+    func hide() {
+        guard panel.isVisible else { return }
+        panel.orderOut(nil)
+        parent?.makeKey()
+    }
+
+    private func cancel() {
+        hide()
+        onCancel?()
+    }
+
+    private func activate(_ row: Suggestion, newTab: Bool) {
+        hide()
+        onActivate?(row, newTab)
+    }
+
+    private func resize() {
+        guard let parent else { return }
+        let width = min(Self.width, parent.frame.width - 48)
+        let preview = width >= SuggestionMetrics.previewThreshold
+        if preview != showsPreview {
+            showsPreview = preview
+            model.loadsFacts = preview
+            list.rootView.showsPreview = preview
+        }
+        let listHeight = model.listHeight(showingPreview: preview)
+        let height = Self.fieldHeight + (listHeight == 0 ? 0 : listHeight + 1)
+        let top = parent.frame.maxY - chromeHeight - 12
+        let x = parent.frame.midX - width / 2
+        panel.setFrame(NSRect(x: x.rounded(), y: (top - height).rounded(), width: width, height: height), display: true)
+    }
+
+    private func layoutContents() {
+        let bounds = container.bounds
+        let fieldTop = bounds.height - Self.fieldHeight
+        searchIcon.frame = NSRect(x: 16, y: fieldTop + (Self.fieldHeight - 18) / 2, width: 18, height: 18)
+        field.frame = NSRect(x: 44, y: fieldTop + (Self.fieldHeight - 22) / 2, width: bounds.width - 60, height: 22)
+        divider.isHidden = model.rows.isEmpty
+        divider.frame = NSRect(x: 0, y: fieldTop - 1, width: bounds.width, height: 1)
+        divider.layer?.backgroundColor = container.resolved(Theme.hairline)
+        list.frame = NSRect(x: 0, y: 0, width: bounds.width, height: max(0, fieldTop - 1))
+    }
+
+    #if DEBUG
+    var reviewView: NSView { container }
+
+    func reviewType(_ text: String) {
+        field.stringValue = text
+        completer.reset(typed: text)
+        model.update(query: text, edit: .typed)
+        completer.show(model.inline?.text, in: field)
+    }
+    #endif
+
+    // MARK: Field
+
+    func controlTextDidChange(_ obj: Notification) {
+        let edit = completer.textDidChange(in: field)
+        model.update(query: completer.typed, edit: edit)
+        completer.show(model.inline?.text, in: field)
+    }
+
+    func control(_ control: NSControl, textView: NSTextView, doCommandBy selector: Selector) -> Bool {
+        switch selector {
+        // ⌃N / ⌃P arrive here as moveDown / moveUp through the standard key bindings.
+        case #selector(NSResponder.moveUp(_:)):
+            model.moveSelection(by: -1)
+        case #selector(NSResponder.moveDown(_:)):
+            model.moveSelection(by: 1)
+        case #selector(NSResponder.insertNewline(_:)):
+            if let row = model.selected {
+                activate(row, newTab: NSApp.currentEvent?.modifierFlags.contains(.command) ?? false)
+            }
+        case #selector(NSResponder.cancelOperation(_:)):
+            cancel()
+        default:
+            return false
+        }
+        return true
+    }
+
+    func windowDidResignKey(_ notification: Notification) {
+        // Clicking anywhere else dismisses the bar, like a menu.
+        if panel.isVisible {
+            panel.orderOut(nil)
+            onCancel?()
+        }
+    }
+}
+
+final class CommandBarPanel: NSPanel {
+    override var canBecomeKey: Bool { true }
+    override var canBecomeMain: Bool { false }
+}
+
+/// The bar's rounded, bordered surface.
+final class CommandBarContainer: NSView {
+    var layoutHandler: (() -> Void)?
+
+    override init(frame: NSRect) {
+        super.init(frame: frame)
+        wantsLayer = true
+        layer?.cornerRadius = Theme.panelRadius
+        layer?.cornerCurve = .continuous
+        // AppKit resets `masksToBounds` from `clipsToBounds`; set the view property so content clips to the corners.
+        clipsToBounds = true
+        layer?.borderWidth = 1
+    }
+
+    @available(*, unavailable)
+    required init?(coder: NSCoder) { fatalError() }
+
+    override var wantsUpdateLayer: Bool { true }
+
+    override func updateLayer() {
+        layer?.backgroundColor = resolved(Theme.chromeSurface)
+        layer?.borderColor = resolved(Theme.hairline)
+    }
+
+    override func layout() {
+        super.layout()
+        layoutHandler?()
+    }
+}
+
+/// Collects every enabled menu bar command for the command bar.
+@MainActor
+enum MenuCommands {
+    private static let excluded: Set<String> = [
+        "openHistoryItem:", "reopenClosedItem:", "run", "toggleCommandBar:", "openLocation:", "submenuAction:",
+        // The Window menu's list of open windows; tabs already appear as "Switch to Tab".
+        "makeKeyAndOrderFront:",
+    ]
+
+    static func collect() -> [SuggestionEngine.CommandInfo] {
+        guard let main = NSApp.mainMenu else { return [] }
+        var commands: [SuggestionEngine.CommandInfo] = []
+        func walk(_ menu: NSMenu, path: [String]) {
+            menu.update()
+            for item in menu.items where !item.isSeparatorItem && !item.isHidden {
+                if let submenu = item.submenu {
+                    // Dynamic menus (History, Bookmarks) list pages, not commands; skip their entries.
+                    if menu === main && submenu.delegate != nil {
+                        for entry in submenu.items where entry.action != nil { append(entry, path: [item.title], to: &commands) }
+                    } else if menu !== main || item.title != "Services" {
+                        walk(submenu, path: path + [item.title])
+                    }
+                } else {
+                    append(item, path: path, to: &commands)
+                }
+            }
+        }
+        walk(main, path: [])
+        return commands
+    }
+
+    private static func append(_ item: NSMenuItem, path: [String], to commands: inout [SuggestionEngine.CommandInfo]) {
+        guard let action = item.action, item.isEnabled, !item.title.isEmpty else { return }
+        let selector = NSStringFromSelector(action)
+        guard !excluded.contains(selector), item.title != "Services" else { return }
+        if commands.contains(where: { $0.title == item.title }) { return }
+        // The first level of the main menu is the app menu, titled by the app name.
+        let menuPath = path.isEmpty ? nil : path.map { $0.isEmpty ? "Koala" : $0 }.joined(separator: " ▸ ")
+        commands.append(.init(selector: selector, title: item.title, shortcut: shortcut(for: item), menuPath: menuPath))
+    }
+
+    static func shortcut(for item: NSMenuItem) -> String? {
+        let shortcut = MenuShortcuts.shortcut(of: item)
+        return shortcut.isNone ? nil : shortcut.display
+    }
+}
